@@ -1,1 +1,4 @@
-clang -E world.cpp > world.p
+#ifndef EXTRA
+#define EXTRA "modified EXTRA"
+//clang -E world.cpp > world.p
+#endif

@@ -3,13 +3,13 @@
 #include <chrono>
 #include <thread>
 #include <time.h>
-
+#include <string>
 #define NUM 100000
 
 using namespace std;
 using namespace std::chrono;
 
-
+#include "extra"
 
 void pre_populate_to_arr(vector<float> & arr);
 void linear_sort(vector<float> & arr);
@@ -31,15 +31,15 @@ enum class Dirctions_enum {
 };
 
 int main() {
-	char word_puzzle_board[] = {'t','h','i','s','w','a','t','s','o','a','h','g','f','g','d','t'};
-	string dictionary[4] = {"this","two","fat","that"};
+	//prepare data
+
+	//---------
 	long start_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
 	).count();
-
-	vector<string> words = find_valid_english_words(word_puzzle_board,dictionary);
-	print_words(words);
-	
+	//solve problem
+	cout << EXTRA << "\n\n\n";
+	//----------
 	long end_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
 	).count();
