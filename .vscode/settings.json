@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "fstream": "cpp",
+        "locale": "cpp",
+        "iostream": "cpp",
+        "iosfwd": "cpp",
+        "chrono": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
+}
