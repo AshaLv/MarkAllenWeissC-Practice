@@ -36,15 +36,15 @@ enum class Dirctions_enum {
 
 int main() {
 	//prepare data
-	int from = NUM / 2;
-	int to = NUM;
+	
 	//---------
 	long start_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
 	).count();
 	//solve problem
-	cout << log(2) << "\n";
-	cout << get_the_sum(from,to) << "\n";
+	double f = (1 + pow(5,0.5)) / 2;
+	for (int i = 0; i<10; i++) 
+		cout << pow(f,i) << "\n";
 	//----------
 	long end_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
