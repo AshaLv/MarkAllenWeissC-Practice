@@ -34,17 +34,177 @@ enum class Dirctions_enum {
 	right_down_diagonal
 };
 
+template<typename Object>
+class Collection {
+	public:
+		Collection() {}
+		~Collection() {
+			delete[] container;
+		}
+		Collection(const Collection & rhs) {
+			limit_size = rhs.limit_size;
+			size = rhs.size;
+			container = new Object[limit_size];
+			for(int i = 0; i < limit_size; i++) {
+				container[i] = rhs.container[i];
+			}
+		}
+		const Collection & operator=(const Collection & rhs) {
+			if(this != &rhs) {
+				limit_size = rhs.limit_size;
+				size = rhs.size;
+				container = new Object[limit_size];
+				for(int i = 0; i < limit_size; i++) {
+					container[i] = rhs.container[i];
+				}
+			}
+			return *this;
+		}
+		bool isEmpty() const {
+			if (size == 0) return true;
+			return false;
+		}
+		void makeEmpty() {
+			container = new Object(8);
+			size = 0;
+		}
+		void insert(const Object o) {
+			if (size < limit_size) {
+				container[size] = o;
+			} else {
+				add_resize();
+				container[size] = o;
+			}
+			size++;
+		}
+		void remove(const Object o) {
+			for(int i = 0; i < size; i++) {
+				if (container[i] == o) {
+					container[i] = NULL;
+					break;
+				}
+			}
+			size--;
+			if (limit_size / size == 4) {
+				decrease_resize();
+			}
+		}
+		bool contains(const Object & o) const {
+			for(int i = 0; i < size; i++) {
+				if (o == container[i]) return true;
+			}
+			return false;
+		}
+		int get_size() {
+			return size;
+		}
+		int get_limit_size() {
+			return limit_size;
+		}
+	private:
+		int limit_size = 8;
+		Object *container = new Object[limit_size];
+		int size = 0;
+		void add_resize() {
+			int original_limit_size = limit_size;
+			limit_size *= 2;
+			Object *temp = new Object[original_limit_size];
+			for (int i = 0; i < size; i++) {
+				temp[i] = container[i];
+			}
+			container = new Object[limit_size];
+			for(int i = 0; i < original_limit_size; i++) {
+				container[i] = temp[i];
+			}
+			delete[] temp;
+		}
+		void decrease_resize() {
+			int original_limit_size = limit_size;
+			limit_size /= 2;
+			Object *temp = new Object[original_limit_size];
+			for (int i = 0; i < original_limit_size; i++) {
+				temp[i] = container[i];
+			}
+			container = new Object[limit_size];
+			for(int i = 0; i < original_limit_size; i++) {
+				if(temp[i]) container[i] = temp[i];
+			}
+			delete[] temp;
+		}
+};
+
 int main() {
 	//prepare data
-	
+	int a = 1;
+	int b = 2;
+	int c = 3;
 	//---------
 	long start_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
 	).count();
 	//solve problem
-	double f = (1 + pow(5,0.5)) / 2;
-	for (int i = 0; i<10; i++) 
-		cout << pow(f,i) << "\n";
+	Collection<int> collection;
+	cout << "collection.isEmpty(): " << collection.isEmpty() << "\n";
+	collection.insert(a);
+	collection.insert(b);
+	collection.insert(c);
+	cout << "\n";
+	cout << "collection.contains(1): " << collection.contains(1) << "\n";
+	cout << "collection.isEmpty(): " << collection.isEmpty() << "\n";
+	collection.makeEmpty();
+	cout << "collection.makeEmpty()" << "\n";
+	cout << "collection.isEmpty(): " << collection.isEmpty() << "\n";
+	cout << "collection.contains(1): " << collection.contains(1) << "\n";
+	cout << "size: " <<  collection.get_size() << "\n";
+	cout << "limit size: " <<  collection.get_limit_size() << "\n";
+	cout << "reinsert\n" ;
+	collection.insert(99);
+	collection.insert(b);
+	collection.insert(c);
+	collection.insert(4);
+	collection.insert(5);
+	collection.insert(6);
+	collection.insert(7);
+	collection.insert(8);
+	cout << "8 size: " <<  collection.get_size() << "\n";
+	cout << "8 limit size: " <<  collection.get_limit_size() << "\n";
+	collection.insert(9);
+	collection.insert(10);
+	collection.insert(11);
+	collection.insert(12);
+	cout << "10 size: " <<  collection.get_size() << "\n";
+	cout << "10 limit size: " <<  collection.get_limit_size() << "\n";
+	cout << "collection.contains(1): " << collection.contains(1) << "\n";
+	cout << "collection.remove(1)" << "\n";
+	collection.remove(1);
+	collection.remove(2);
+	collection.remove(3);
+	collection.remove(4);
+	collection.remove(5);
+	collection.remove(6);
+	collection.remove(7);
+	collection.remove(8);
+	collection.remove(9);
+	cout << "3 size: " <<  collection.get_size() << "\n";
+	cout << "3 limit size: " <<  collection.get_limit_size() << "\n";
+	cout << "collection.contains(1): " << collection.contains(1) << "\n";
+	Collection<int> c2(collection);
+	cout << "c2 3 size: " <<  c2.get_size() << "\n";
+	cout << "c2 3 limit size: " <<  c2.get_limit_size() << "\n";
+	cout << "c2.contains(1): " << c2.contains(1) << "\n";
+	cout << "c2.contains(10): " << c2.contains(10) << "\n";
+	c2.insert(1);
+	cout << "c2.contains(1): " << c2.contains(1) << "\n";
+	cout << "collection.contains(1): " << collection.contains(1) << "\n";
+	Collection<int> c3;
+	c3 = collection;
+	cout << "c3 3 size: " <<  c3.get_size() << "\n";
+	cout << "c3 3 limit size: " <<  c3.get_limit_size() << "\n";
+	cout << "c3.contains(1): " << c3.contains(1) << "\n";
+	cout << "c3.contains(10): " << c3.contains(10) << "\n";
+	c3.insert(1);
+	cout << "c3.contains(1): " << c3.contains(1) << "\n";
+	cout << "collection.contains(1): " << collection.contains(1) << "\n";
 	//----------
 	long end_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
