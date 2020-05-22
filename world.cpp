@@ -42,8 +42,6 @@ class Collection {
 			delete[] container;
 		}
 		Collection(const Collection & rhs) {
-			limit_size = rhs.limit_size;
-			size = rhs.size;
 			container = new Object[limit_size];
 			for(int i = 0; i < limit_size; i++) {
 				container[i] = rhs.container[i];
@@ -51,8 +49,6 @@ class Collection {
 		}
 		const Collection & operator=(const Collection & rhs) {
 			if(this != &rhs) {
-				limit_size = rhs.limit_size;
-				size = rhs.size;
 				container = new Object[limit_size];
 				for(int i = 0; i < limit_size; i++) {
 					container[i] = rhs.container[i];
@@ -203,6 +199,20 @@ int main() {
 	cout << "c3.contains(1): " << c3.contains(1) << "\n";
 	cout << "c3.contains(10): " << c3.contains(10) << "\n";
 	c3.insert(1);
+	c3.insert(2);
+	c3.insert(13);
+	c3.insert(2321);
+	c3.insert(1321);
+	c3.insert(231);
+	c3.insert(112);
+	c3.insert(223);
+	c3.insert(43);
+	c3.insert(11432);
+	c3.insert(2233);
+	cout << "c3.get_size(): " << c3.get_size() << "\n";
+	cout << "c3.get_limit_size(): " << c3.get_limit_size() << "\n";
+	cout << "collection.get_size(): " << collection.get_size() << "\n";
+	cout << "collection.get_limit_size(): " << collection.get_limit_size() << "\n";
 	cout << "c3.contains(1): " << c3.contains(1) << "\n";
 	cout << "collection.contains(1): " << collection.contains(1) << "\n";
 	//----------
