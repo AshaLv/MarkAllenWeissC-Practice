@@ -4,7 +4,9 @@
 #include <thread>
 #include <time.h>
 #include <string>
-#define NUM 100000
+#include <math.h>
+
+#define NUM 10000000
 
 using namespace std;
 using namespace std::chrono;
@@ -19,6 +21,7 @@ void print_words(vector<string> words);
 vector<string> find_valid_english_words(char* word_puzzle_board, string* dictionary);
 bool look_up_word_in_dictionary(string word, string* dictionary);
 int get_the_1s_number_in_n(int n);
+float get_the_sum(int from, int to);
 
 enum class Dirctions_enum {
 	up = 0,
@@ -33,14 +36,15 @@ enum class Dirctions_enum {
 
 int main() {
 	//prepare data
-	int n = 31;
+	int from = NUM / 2;
+	int to = NUM;
 	//---------
 	long start_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
 	).count();
 	//solve problem
-	int number = get_the_1s_number_in_n(n);
-	cout << number << "\n";
+	cout << log(2) << "\n";
+	cout << get_the_sum(from,to) << "\n";
 	//----------
 	long end_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
@@ -60,6 +64,13 @@ int get_the_1s_number_in_n(int n) {
 	}
 }
 
+float get_the_sum(int from, int to) {
+	float sum = 0;
+	for (float i = from; i <= to; i++) {
+		sum += (1/i);
+	}
+	return sum;
+}
 
 void print_words(vector<string> words) {
 	for(int i = 0; i < 4; i++) {
