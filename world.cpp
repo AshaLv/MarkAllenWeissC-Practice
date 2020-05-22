@@ -18,6 +18,7 @@ float get_kth_maximum_element(const vector<float> & arr, int k);
 void print_words(vector<string> words);
 vector<string> find_valid_english_words(char* word_puzzle_board, string* dictionary);
 bool look_up_word_in_dictionary(string word, string* dictionary);
+int get_the_1s_number_in_n(int n);
 
 enum class Dirctions_enum {
 	up = 0,
@@ -32,19 +33,33 @@ enum class Dirctions_enum {
 
 int main() {
 	//prepare data
-
+	int n = 31;
 	//---------
 	long start_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
 	).count();
 	//solve problem
-	cout << EXTRA << "\n\n\n";
+	int number = get_the_1s_number_in_n(n);
+	cout << number << "\n";
 	//----------
 	long end_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
 	).count();
 	cout << "The algorithm costs: " << end_time - start_time << " millisecond(s)" << "\n";
 }
+
+int get_the_1s_number_in_n(int n) {
+	if (n <= 0) {
+		return 0;
+	} else if(n == 1) {
+		return 1;
+	} else if (n % 2 == 0) {
+		return get_the_1s_number_in_n(n+1)-1;
+	} else {
+		return get_the_1s_number_in_n(n/2) + 1;
+	}
+}
+
 
 void print_words(vector<string> words) {
 	for(int i = 0; i < 4; i++) {
