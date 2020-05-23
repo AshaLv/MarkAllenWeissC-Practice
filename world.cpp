@@ -76,7 +76,10 @@ class Collection {
 		void remove(const Object o) {
 			for(int i = 0; i < size; i++) {
 				if (container[i] == o) {
+					Object temp = container[size-1];
 					container[i] = NULL;
+					container[size-1] = NULL;
+					container[i] = temp;
 					break;
 				}
 			}
@@ -97,6 +100,9 @@ class Collection {
 		int get_limit_size() {
 			return limit_size;
 		}
+		const Object & operator[](int index) const {
+			return container[index];
+		} 
 	private:
 		int limit_size = 8;
 		Object *container = new Object[limit_size];
@@ -129,6 +135,16 @@ class Collection {
 		}
 };
 
+// template<Comparable>
+// class OrderedCollection : public Collection {
+// 	const & Comparable find_max() {
+// 		for (int i = 0; i < size)
+// 	}
+// 	const & Comparable find_min() {
+
+// 	}
+// };
+
 int main() {
 	//prepare data
 	int a = 1;
@@ -147,74 +163,10 @@ int main() {
 	cout << "\n";
 	cout << "collection.contains(1): " << collection.contains(1) << "\n";
 	cout << "collection.isEmpty(): " << collection.isEmpty() << "\n";
-	collection.makeEmpty();
-	cout << "collection.makeEmpty()" << "\n";
-	cout << "collection.isEmpty(): " << collection.isEmpty() << "\n";
-	cout << "collection.contains(1): " << collection.contains(1) << "\n";
-	cout << "size: " <<  collection.get_size() << "\n";
-	cout << "limit size: " <<  collection.get_limit_size() << "\n";
-	cout << "reinsert\n" ;
-	collection.insert(99);
-	collection.insert(b);
-	collection.insert(c);
-	collection.insert(4);
-	collection.insert(5);
-	collection.insert(6);
-	collection.insert(7);
-	collection.insert(8);
-	cout << "8 size: " <<  collection.get_size() << "\n";
-	cout << "8 limit size: " <<  collection.get_limit_size() << "\n";
-	collection.insert(9);
-	collection.insert(10);
-	collection.insert(11);
-	collection.insert(12);
-	cout << "10 size: " <<  collection.get_size() << "\n";
-	cout << "10 limit size: " <<  collection.get_limit_size() << "\n";
-	cout << "collection.contains(1): " << collection.contains(1) << "\n";
-	cout << "collection.remove(1)" << "\n";
 	collection.remove(1);
-	collection.remove(2);
-	collection.remove(3);
-	collection.remove(4);
-	collection.remove(5);
-	collection.remove(6);
-	collection.remove(7);
-	collection.remove(8);
-	collection.remove(9);
-	cout << "3 size: " <<  collection.get_size() << "\n";
-	cout << "3 limit size: " <<  collection.get_limit_size() << "\n";
-	cout << "collection.contains(1): " << collection.contains(1) << "\n";
-	Collection<int> c2(collection);
-	cout << "c2 3 size: " <<  c2.get_size() << "\n";
-	cout << "c2 3 limit size: " <<  c2.get_limit_size() << "\n";
-	cout << "c2.contains(1): " << c2.contains(1) << "\n";
-	cout << "c2.contains(10): " << c2.contains(10) << "\n";
-	c2.insert(1);
-	cout << "c2.contains(1): " << c2.contains(1) << "\n";
-	cout << "collection.contains(1): " << collection.contains(1) << "\n";
-	Collection<int> c3;
-	c3 = collection;
-	cout << "c3 3 size: " <<  c3.get_size() << "\n";
-	cout << "c3 3 limit size: " <<  c3.get_limit_size() << "\n";
-	cout << "c3.contains(1): " << c3.contains(1) << "\n";
-	cout << "c3.contains(10): " << c3.contains(10) << "\n";
-	c3.insert(1);
-	c3.insert(2);
-	c3.insert(13);
-	c3.insert(2321);
-	c3.insert(1321);
-	c3.insert(231);
-	c3.insert(112);
-	c3.insert(223);
-	c3.insert(43);
-	c3.insert(11432);
-	c3.insert(2233);
-	cout << "c3.get_size(): " << c3.get_size() << "\n";
-	cout << "c3.get_limit_size(): " << c3.get_limit_size() << "\n";
-	cout << "collection.get_size(): " << collection.get_size() << "\n";
-	cout << "collection.get_limit_size(): " << collection.get_limit_size() << "\n";
-	cout << "c3.contains(1): " << c3.contains(1) << "\n";
-	cout << "collection.contains(1): " << collection.contains(1) << "\n";
+	collection.insert(5);
+	cout << "collection.contains(3): " << collection.contains(3) << "\n";
+	cout << collection[0] << " | " << collection[collection.get_size()-1] << "\n";
 	//----------
 	long end_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
