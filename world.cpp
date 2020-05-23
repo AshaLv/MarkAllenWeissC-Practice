@@ -135,6 +135,66 @@ class Collection {
 		}
 };
 
+char to_lower_case(char c) {
+	if(c >= 65 && c <= 90) {
+		c = c + 32;
+	}
+	return c;
+};
+
+int strings_compare(const string & lhs, const string & rhs) {
+	char l;
+	char r;
+	int lhs_size = lhs.size();
+	int rhs_size = rhs.size();
+	for(int i = 0; i < lhs_size; i++) {
+		if (rhs_size-1 >= i) {
+			l = to_lower_case(lhs[i]);
+			r = to_lower_case(rhs[i]);
+			if (l > r) return 1;
+			else if (l < r) return -1;
+		}
+	}
+	return 0; 
+};
+
+class Employee {
+	public:
+		Employee() {}
+		Employee(string name) : m_name(name) {}
+		void set_name(string name) {
+			m_name = name;
+		}
+		const string & get_name() const {
+			return m_name;
+		}
+		void print(ostream & out) const {
+			out << m_name << "\n";
+		}
+		bool operator<(const Employee & rhs) const {
+			int r = strings_compare(m_name,rhs.get_name());
+			if (r == -1) return true;
+			return false;
+		}
+	private:
+		string m_name;
+};
+
+class ComparableFunction {
+	public:
+	static const int name_flag = 1;
+	static const int equal_flag = 0;
+	static const int less_flag = -1;
+	static const int greater_flag = 1;
+	ComparableFunction() {}
+	int compare(Employee & lhs, Employee & rhs, int flag) {
+		switch(flag) {
+			case name_flag:
+				return strings_compare(lhs.get_name(),rhs.get_name());
+		}
+	}
+};
+
 template<typename Comparable>
 class OrderedCollection : public Collection<Comparable> {
 	public:
@@ -153,7 +213,25 @@ class OrderedCollection : public Collection<Comparable> {
 		const Comparable & find_min() const {
 			int index = 0;
 			for (int i = 0; i < this->size; i++) {
-				if (this->container[index] > this->container[i]) {
+				if (this->container[i] < this->container[index]) {
+					index = i;
+				}
+			}
+			return this->container[index];
+		}
+		const Comparable & find_max(ComparableFunction & comparable_function, int flag) const {
+			int index = 0;
+			for (int i = 0; i < this->size; i++) {
+				if (comparable_function.compare(this->container[index],this->container[i],flag) == comparable_function.less_flag) {
+					index = i;
+				}
+			}
+			return this->container[index];
+		}
+		const Comparable & find_min(ComparableFunction & comparable_function,int flag) const {
+			int index = 0;
+			for (int i = 0; i < this->size; i++) {
+				if (comparable_function.compare(this->container[index],this->container[i],flag) == comparable_function.greater_flag) {
 					index = i;
 				}
 			}
@@ -163,20 +241,23 @@ class OrderedCollection : public Collection<Comparable> {
 
 int main() {
 	//prepare data
-	
+	Employee e1 = Employee("Ashax");
+	Employee e2 = Employee("Peter");
+	Employee e3 = Employee("Mel");
 	//---------
 	long start_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
 	).count();
 	//solve problem
-	OrderedCollection<int> collection;
-	collection.insert(1);
-	collection.insert(2);
-	collection.insert(434);
-	collection.insert(545);
-	collection.insert(23);
-	cout << collection.find_max() << "\n";
-	cout << collection.find_min() << "\n";
+	OrderedCollection<Employee> collection;
+	ComparableFunction c;
+	collection.insert(e1);
+	collection.insert(e2);
+	collection.insert(e3);
+	collection.find_min().print(cout);
+	collection.find_max().print(cout);
+	collection.find_min(c,c.name_flag).print(cout);
+	collection.find_max(c,c.name_flag).print(cout);
 	//----------
 	long end_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
