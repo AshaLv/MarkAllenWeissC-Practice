@@ -64,7 +64,7 @@ class Collection {
 			container = new Object(8);
 			size = 0;
 		}
-		void insert(const Object o) {
+		void insert(const Object & o) {
 			if (size < limit_size) {
 				container[size] = o;
 			} else {
@@ -73,7 +73,7 @@ class Collection {
 			}
 			size++;
 		}
-		void remove(const Object o) {
+		void remove(const Object & o) {
 			for(int i = 0; i < size; i++) {
 				if (container[i] == o) {
 					Object temp = container[size-1];
@@ -103,7 +103,7 @@ class Collection {
 		const Object & operator[](int index) const {
 			return container[index];
 		} 
-	private:
+	protected:
 		int limit_size = 8;
 		Object *container = new Object[limit_size];
 		int size = 0;
@@ -135,38 +135,48 @@ class Collection {
 		}
 };
 
-// template<Comparable>
-// class OrderedCollection : public Collection {
-// 	const & Comparable find_max() {
-// 		for (int i = 0; i < size)
-// 	}
-// 	const & Comparable find_min() {
-
-// 	}
-// };
+template<typename Comparable>
+class OrderedCollection : public Collection<Comparable> {
+	public:
+		OrderedCollection() : Collection<Comparable>() {
+			
+		}
+		const Comparable & find_max() const {
+			int index = 0;
+			for (int i = 0; i < this->size; i++) {
+				if (this->container[index] < this->container[i]) {
+					index = i;
+				}
+			}
+			return this->container[index];
+		}
+		const Comparable & find_min() const {
+			int index = 0;
+			for (int i = 0; i < this->size; i++) {
+				if (this->container[index] > this->container[i]) {
+					index = i;
+				}
+			}
+			return this->container[index];
+		}
+};
 
 int main() {
 	//prepare data
-	int a = 1;
-	int b = 2;
-	int c = 3;
+	
 	//---------
 	long start_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
 	).count();
 	//solve problem
-	Collection<int> collection;
-	cout << "collection.isEmpty(): " << collection.isEmpty() << "\n";
-	collection.insert(a);
-	collection.insert(b);
-	collection.insert(c);
-	cout << "\n";
-	cout << "collection.contains(1): " << collection.contains(1) << "\n";
-	cout << "collection.isEmpty(): " << collection.isEmpty() << "\n";
-	collection.remove(1);
-	collection.insert(5);
-	cout << "collection.contains(3): " << collection.contains(3) << "\n";
-	cout << collection[0] << " | " << collection[collection.get_size()-1] << "\n";
+	OrderedCollection<int> collection;
+	collection.insert(1);
+	collection.insert(2);
+	collection.insert(434);
+	collection.insert(545);
+	collection.insert(23);
+	cout << collection.find_max() << "\n";
+	cout << collection.find_min() << "\n";
 	//----------
 	long end_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
