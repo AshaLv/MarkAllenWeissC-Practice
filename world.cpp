@@ -239,25 +239,50 @@ class OrderedCollection : public Collection<Comparable> {
 		}
 };
 
+template <typename Object>
+class Matrix {
+	public:
+		Matrix(int rows = 3, int cols = 3) : array(rows) {
+			for(int i = 0; i < rows; i++) {
+				array[i].resize(cols);
+			}
+		}
+		const vector<Object> & operator[](int row) const {
+			return array[row];
+		}
+		vector<Object> & operator[](int row) {
+			return array[row];
+		}
+		int numrows() const {
+			return array.size();
+		}
+		int numcols() const {
+			return numrows() ? array[0].size() : 0;
+		}
+		void resize(int new_rows, int new_cols) {
+			array.resize(new_rows);
+			for(int i = 0; i < new_rows; i++) {
+				array[i].resize(new_cols);
+			}
+		}
+	private:
+		vector< vector<Object> > array;
+};
+
 int main() {
 	//prepare data
-	Employee e1 = Employee("Ashax");
-	Employee e2 = Employee("Peter");
-	Employee e3 = Employee("Mel");
+	
 	//---------
 	long start_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
 	).count();
 	//solve problem
-	OrderedCollection<Employee> collection;
-	ComparableFunction c;
-	collection.insert(e1);
-	collection.insert(e2);
-	collection.insert(e3);
-	collection.find_min().print(cout);
-	collection.find_max().print(cout);
-	collection.find_min(c,c.name_flag).print(cout);
-	collection.find_max(c,c.name_flag).print(cout);
+	Matrix<int> m1;
+	cout << m1.numrows() << "\n";
+	cout << m1.numcols() << "\n";
+	m1.resize(5,5);
+	cout << m1.numrows() << "\n";
+	cout << m1.numcols() << "\n";
 	//----------
 	long end_time = duration_cast< milliseconds >(
 		system_clock::now().time_since_epoch()
