@@ -268,26 +268,130 @@ class Matrix {
 	private:
 		vector< vector<Object> > array;
 };
+class sum {
+	public:
+		sum() {}
+		virtual void run(int n) = 0;
+};
+class sum1 : public sum {
+	public:
+		sum1() {}
+		void run(int n);
+};
+class sum2 : public sum  {
+	void run(int n);
+};
+class sum3 : public sum {
+	void run(int n);
+};
+class sum4 : public sum {
+	void run(int n);
+};
+class sum5 : public sum {
+	void run(int n);
+};
+class sum6 : public sum {
+	void run(int n);
+};
+void print_running_time(sum * s,int n);
 
 int main() {
 	//prepare data
+	int num = 400;
+	sum1 s1;
+	sum2 s2;
+	sum3 s3;
+	sum4 s4;
+	sum5 s5;
+	sum6 s6;
+	//solve problem
+	sum * s = &s1;
+	print_running_time(s,num);
+	s = &s2;
+	print_running_time(s,num);
+	s = &s3;
+	print_running_time(s,num);
+	s = &s4;
+	print_running_time(s,num);
+	s = &s5;
+	print_running_time(s,num);
+	s = &s6;
+	print_running_time(s,num);
+}
+
+void sum1::run(int n) {
+	int sum = 0;
+	for(int i = 0; i < n; i++) {
+		sum++;
+	}
+	cout << "sum1:" << sum << "\n";
+}
+void sum2::run(int n) {
+	int sum = 0;
+	for(int i = 0; i < n; i++) {
+		for(int j = 0; j < n; j++) {
+			sum++;
+		}
+	}
+	cout << "sum2:" << sum << "\n";
+}
+void sum3::run(int n) {
+	int sum = 0;
+	for(int i = 0; i < n; i++) {
+		for(int j = 0; j < n * n; j++) {
+			sum++;
+		}
+	}
+	cout << "sum3:" << sum << "\n";
+}
+void sum4::run(int n) {
+	int sum = 0;
+	for(int i = 0; i < n; i++) {
+		for(int j = 0; j < i; j++) {
+			sum++;
+		}
+	}
+	cout << "sum4:" << sum << "\n";
+}
+void sum5::run(int n) {
+	int sum = 0;
+	for(int i = 0; i < n; i++) {
+		for(int j = 0; j < i * i; j++) {
+			for(int k = 0; k < j; k++) {
+				sum++;
+			}
+		}
+	}
+	cout << "sum5:" << sum << "\n";
+}
+void sum6::run(int n) {
+	int sum = 0;
+	for(int i = 1; i < n; i++) {
+		for(int j = 1; j < i * i; j++) {
+			if (j % i == 0) {
+				for (int k = 0; k < j; k++) {
+					sum++;
+				}
+			}
+		}
+	}
+	cout << "sum6:" << sum << "\n";
+}
+
+void print_running_time(sum * s,int n) {
+	//prepare data
 	
 	//---------
-	long start_time = duration_cast< milliseconds >(
+	long start_time = duration_cast< microseconds >(
 		system_clock::now().time_since_epoch()
 	).count();
 	//solve problem
-	Matrix<int> m1;
-	cout << m1.numrows() << "\n";
-	cout << m1.numcols() << "\n";
-	m1.resize(5,5);
-	cout << m1.numrows() << "\n";
-	cout << m1.numcols() << "\n";
+	s->run(n);
 	//----------
-	long end_time = duration_cast< milliseconds >(
+	long end_time = duration_cast< microseconds >(
 		system_clock::now().time_since_epoch()
 	).count();
-	cout << "The algorithm costs: " << end_time - start_time << " millisecond(s)" << "\n";
+	cout << "The algorithm costs: " << end_time - start_time << " microsecond(s)" << "\n";
 }
 
 int get_the_1s_number_in_n(int n) {
