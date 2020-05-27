@@ -22,6 +22,7 @@ vector<string> find_valid_english_words(char* word_puzzle_board, string* diction
 bool look_up_word_in_dictionary(string word, string* dictionary);
 int get_the_1s_number_in_n(int n);
 float get_the_sum(int from, int to);
+int get_random_number_between(int i, int j);
 
 enum class Dirctions_enum {
 	up = 0,
@@ -268,56 +269,46 @@ class Matrix {
 	private:
 		vector< vector<Object> > array;
 };
-class sum {
+class func_obj {
 	public:
-		sum() {}
+		func_obj() {}
 		virtual void run(int n) = 0;
 };
-class sum1 : public sum {
+class sum1 : public func_obj {
 	public:
 		sum1() {}
 		void run(int n);
 };
-class sum2 : public sum  {
+class sum2 : public func_obj  {
 	void run(int n);
 };
-class sum3 : public sum {
+class sum3 : public func_obj {
 	void run(int n);
 };
-class sum4 : public sum {
+class sum4 : public func_obj {
 	void run(int n);
 };
-class sum5 : public sum {
+class sum5 : public func_obj {
 	void run(int n);
 };
-class sum6 : public sum {
+class sum6 : public func_obj {
 	void run(int n);
 };
-void print_running_time(sum * s,int n);
+void print_running_time(func_obj * func_obj,int n);
 
 int main() {
 	//prepare data
-	int num = 400;
-	sum1 s1;
-	sum2 s2;
-	sum3 s3;
-	sum4 s4;
-	sum5 s5;
-	sum6 s6;
+	
 	//solve problem
-	sum * s = &s1;
-	print_running_time(s,num);
-	s = &s2;
-	print_running_time(s,num);
-	s = &s3;
-	print_running_time(s,num);
-	s = &s4;
-	print_running_time(s,num);
-	s = &s5;
-	print_running_time(s,num);
-	s = &s6;
-	print_running_time(s,num);
+	
 }
+
+int get_random_number_between(int i, int j) {
+	srand( (unsigned)time( NULL ) );
+	int subtraction_random = rand()%(j-i+1);
+	int num =  i + subtraction_random;
+    return num;
+}	
 
 void sum1::run(int n) {
 	int sum = 0;
@@ -378,7 +369,7 @@ void sum6::run(int n) {
 	cout << "sum6:" << sum << "\n";
 }
 
-void print_running_time(sum * s,int n) {
+void print_running_time(func_obj * func_obj,int n) {
 	//prepare data
 	
 	//---------
@@ -386,7 +377,7 @@ void print_running_time(sum * s,int n) {
 		system_clock::now().time_since_epoch()
 	).count();
 	//solve problem
-	s->run(n);
+	func_obj->run(n);
 	//----------
 	long end_time = duration_cast< microseconds >(
 		system_clock::now().time_since_epoch()
