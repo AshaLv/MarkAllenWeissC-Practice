@@ -294,20 +294,99 @@ class sum5 : public func_obj {
 class sum6 : public func_obj {
 	void run(int n);
 };
+class permutation1: public func_obj {
+	void run(int n);
+};
+class permutation2: public func_obj {
+	void run(int n);
+};
+class permutation3: public func_obj {
+	void run(int n);
+};
 void print_running_time(func_obj * func_obj,int n);
 
 int main() {
 	//prepare data
-	
+	int n1 = 200;
+	int n2 = 400;
+	int n3 = 800;
+	int n4 = 1600;
+	permutation1 p1;
+	permutation2 p2;
+	permutation3 p3;
+	func_obj * f = &p3;
 	//solve problem
-	
+	print_running_time(f,n1);
+	print_running_time(f,n2);
+	print_running_time(f,n3);
+	print_running_time(f,n4);
 }
 
 int get_random_number_between(int i, int j) {
 	srand( (unsigned)time( NULL ) );
-	int subtraction_random = rand()%(j-i+1);
+	int subtraction_random = rand()%(j-i);
 	int num =  i + subtraction_random;
     return num;
+}
+
+void permutation1::run(int n) {
+	unsigned int *permutaion = new unsigned int[n];
+	bool unique;
+	unsigned int c;
+	for(int i = 0; i < n ; i++) {
+		do {
+			unique = true;
+			c = get_random_number_between(0,n);
+			for(int j = 0; j < i; j++) {
+				if (c == permutaion[j]) 
+					unique = false;
+			}
+		} while(!unique);
+		permutaion[i] = c;
+	}
+	for (int i = 0; i < n; i++) {
+		cout << permutaion[i] << " ";
+	}
+	cout << "\n";
+	delete[] permutaion;
+}
+
+void permutation2::run(int n) {
+	unsigned int *permutaion = new unsigned int[n];
+	bool *used = new bool[n];
+	bool unique;
+	unsigned int c;
+	for(int i = 0; i < n ; i++) {
+		do {
+			unique = true;
+			c = get_random_number_between(0,n);
+			if (used[c]) unique = false;
+		} while(!unique);
+		permutaion[i] = c;
+		used[c] = true;
+	}
+	for (int i = 0; i < n; i++) {
+		cout << permutaion[i] << " ";
+	}
+	cout << "\n";
+	delete[] permutaion;
+	delete[] used;
+}	
+
+void permutation3::run(int n) {
+	unsigned int *permutaion = new unsigned int[n];
+	int index;
+	unsigned int temp;
+	for(int i = 0; i < n ; i++) {
+		permutaion[i] = i + 1;
+	}
+	for(int i = 0; i < n ; i++) {
+		index = get_random_number_between(0,i+1);
+		temp = permutaion[i];
+		permutaion[i] = permutaion[index];
+		permutaion[index] = temp;
+	}
+	delete[] permutaion;
 }	
 
 void sum1::run(int n) {
