@@ -303,23 +303,75 @@ class permutation2: public func_obj {
 class permutation3: public func_obj {
 	void run(int n);
 };
+class max_sub_sequence_sum1: public func_obj {
+	public:
+		max_sub_sequence_sum1() {}
+		explicit max_sub_sequence_sum1(int * array) : m_array(array) {}
+		void run(int n);
+	protected:
+		int * m_array;
+};
+class max_sub_sequence_sum2: public max_sub_sequence_sum1 {
+	public:
+		explicit max_sub_sequence_sum2(int * array) : max_sub_sequence_sum1(array) {}
+		void run(int n);
+};
+class max_sub_sequence_sum3: public max_sub_sequence_sum1 {
+	public:
+		explicit max_sub_sequence_sum3(int * array) : max_sub_sequence_sum1(array) {}
+		void run(int n);
+};
+
 void print_running_time(func_obj * func_obj,int n);
 
 int main() {
 	//prepare data
-	int n1 = 200;
-	int n2 = 400;
-	int n3 = 800;
-	int n4 = 1600;
-	permutation1 p1;
-	permutation2 p2;
-	permutation3 p3;
-	func_obj * f = &p3;
+	int arr[] = {3,4,133,-2,3,4,-1};
 	//solve problem
-	print_running_time(f,n1);
-	print_running_time(f,n2);
-	print_running_time(f,n3);
-	print_running_time(f,n4);
+	max_sub_sequence_sum1 s1(arr);
+	max_sub_sequence_sum2 s2(arr);
+	max_sub_sequence_sum3 s3(arr);
+	s1.run(7);
+	s2.run(7);
+	s3.run(7);
+
+}
+
+void max_sub_sequence_sum1::run(int n) {
+	//running time n3
+	int sum = 0;
+	for (int i = 0; i < n; i++) {
+		for (int j = i; j < n; j++) {
+			int inner_sum = 0;
+			for (int k = i; k <= j; k++) {
+				inner_sum += m_array[k];
+			}
+			if (sum < inner_sum) sum = inner_sum;
+		}
+	}
+	cout << "sum:" << sum << "\n";
+}
+void max_sub_sequence_sum2::run(int n) {
+	//running time n2
+	int sum = 0;
+	for (int i = 0; i < n; i++) {
+		int inner_sum = 0;
+		for (int j = i; j < n; j++) {
+			inner_sum += m_array[j];
+			if (sum < inner_sum) sum = inner_sum;
+		}
+	}
+	cout << "sum:" << sum << "\n";
+}
+void max_sub_sequence_sum3::run(int n) {
+	//running time n
+	int sum = 0;
+	int inner_sum = 0;
+	for (int i = 0; i < n; i++) {
+		inner_sum += m_array[i];
+		if (sum < inner_sum) sum = inner_sum;
+	}
+	cout << "sum:" << sum << "\n";
 }
 
 int get_random_number_between(int i, int j) {

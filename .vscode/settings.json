@@ -5,7 +5,8 @@
         "iostream": "cpp",
         "iosfwd": "cpp",
         "chrono": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "vector": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
