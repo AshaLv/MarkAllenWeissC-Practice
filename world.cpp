@@ -328,13 +328,33 @@ void print_running_time(func_obj * func_obj,int n);
 
 bool binary_search(int * arr, int k, int n);
 
+int gcd(int a, int b);
+
 int main() {
 	//prepare data
-	int arr[] = {2,1,0,8,4};
-	int k = 3;
-	int n = 5;
+	int a = 42;
+	int b = 15;
 	//solve problem
-	cout << binary_search(arr,k,n) << "\n";
+	cout << gcd(a,b) << "\n";
+}
+
+int gcd(int a, int b) {
+	if (a == 0 || b == 0) {
+		return a ? a : b;
+	}
+	if (a % 2 == 0 && b % 2 == 0) {
+		// a,b is an even number
+		return 2*gcd(a/2,b/2);
+	} else if (a % 2 == 0 && b % 2 == 1) {
+		// a is even and b is odd
+		return gcd(a/2,b);
+	} else if (a % 2 == 1 && b % 2 == 0) {
+		// a is odd and b is even
+		return gcd(a,b/2);
+	} else {
+		// a is even and b is even
+		return gcd((a+b)/2,(a > b ? a-b : b-a)/2);
+	}
 }
 
 bool binary_search(int * arr, int k, int n) {
