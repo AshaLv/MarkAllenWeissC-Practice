@@ -330,12 +330,25 @@ bool binary_search(int * arr, int k, int n);
 
 int gcd(int a, int b);
 
+int get_minimum_subsequence_sum(int * arr, int n);
+
 int main() {
 	//prepare data
-	int a = 42;
-	int b = 15;
+	int arr[5] = {-3,-1,-1,-2,3};
+	int n = 5;
 	//solve problem
-	cout << gcd(a,b) << "\n";
+	cout << get_minimum_subsequence_sum(arr,n) << "\n";
+}
+
+int get_minimum_subsequence_sum(int * arr, int n) {
+	int sum = 0;
+	int inner_sum = 0;
+	for (int i = 0; i < n; i++) {
+		inner_sum += arr[i];
+		if (inner_sum < sum) sum = inner_sum;
+		if (inner_sum > 0) inner_sum = 0;
+	}
+	return sum;
 }
 
 int gcd(int a, int b) {
