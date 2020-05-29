@@ -326,14 +326,33 @@ void hornerrule(float x, int n, float * a);
 
 void print_running_time(func_obj * func_obj,int n);
 
+bool binary_search(int * arr, int k, int n);
+
 int main() {
 	//prepare data
-	float arr[] = {2,1,0,8,4};
-	float x = 3;
-	int n = 4;
+	int arr[] = {2,1,0,8,4};
+	int k = 3;
+	int n = 5;
 	//solve problem
-	hornerrule(x,n,arr);
-	cout << 4*pow(x,4) + 8*pow(x,3) + 5 << "\n";
+	cout << binary_search(arr,k,n) << "\n";
+}
+
+bool binary_search(int * arr, int k, int n) {
+	int low = 0;
+	int high = n - 1;
+	int middle = (low + high) / 2;
+	while(high >= low) {
+		if (arr[middle] == k) return true;
+		else if (arr[middle] > k) {
+			high = middle - 1;
+			middle = (low + high) / 2;
+		} 
+		else {
+			low = middle + 1;
+			middle = (low + high) / 2;
+		}
+	}
+	return false;
 }
 
 void hornerrule(float x, int n, float * a){
