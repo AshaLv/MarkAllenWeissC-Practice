@@ -367,10 +367,10 @@ class simple_linear_f {
 
 int main() {
 	//prepare data
-	
+	int arr[6] = {1,2,-3,-4,-5,6};
 	//solve problem
-	simple_linear_f f;
-	cout << f.guess_x(-1,1) << "\n";
+	max_sub_sequence_sum3 s(arr);
+	s.run(6);
 }
 
 float simple_linear_f::f(float x) const {
@@ -582,10 +582,27 @@ void max_sub_sequence_sum3::run(int n) {
 	//running time n
 	int sum = 0;
 	int inner_sum = 0;
+	int temp_start_index;
+	int start_index = 0;
+	int end_index;
+	bool changed;
 	for (int i = 0; i < n; i++) {
 		inner_sum += m_array[i];
-		if (sum < inner_sum) sum = inner_sum;
+		if (sum < inner_sum){
+			if (changed) {
+				start_index = temp_start_index;
+				changed = false;
+			}
+			sum = inner_sum;
+			end_index = i;
+		} 
+		if (inner_sum < 0) {
+			temp_start_index = i+1;
+			inner_sum = 0;
+			changed = true;
+		}
 	}
+	cout << start_index << " " << end_index << "\n";
 	cout << "sum:" << sum << "\n";
 }
 
