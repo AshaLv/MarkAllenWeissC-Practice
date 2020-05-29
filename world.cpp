@@ -269,40 +269,51 @@ class Matrix {
 	private:
 		vector< vector<Object> > array;
 };
+
 class func_obj {
 	public:
 		func_obj() {}
 		virtual void run(int n) = 0;
 };
+
 class sum1 : public func_obj {
 	public:
 		sum1() {}
 		void run(int n);
 };
+
 class sum2 : public func_obj  {
 	void run(int n);
 };
+
 class sum3 : public func_obj {
 	void run(int n);
 };
+
 class sum4 : public func_obj {
 	void run(int n);
 };
+
 class sum5 : public func_obj {
 	void run(int n);
 };
+
 class sum6 : public func_obj {
 	void run(int n);
 };
+
 class permutation1: public func_obj {
 	void run(int n);
 };
+
 class permutation2: public func_obj {
 	void run(int n);
 };
+
 class permutation3: public func_obj {
 	void run(int n);
 };
+
 class max_sub_sequence_sum1: public func_obj {
 	public:
 		max_sub_sequence_sum1() {}
@@ -311,11 +322,13 @@ class max_sub_sequence_sum1: public func_obj {
 	protected:
 		int * m_array;
 };
+
 class max_sub_sequence_sum2: public max_sub_sequence_sum1 {
 	public:
 		explicit max_sub_sequence_sum2(int * array) : max_sub_sequence_sum1(array) {}
 		void run(int n);
 };
+
 class max_sub_sequence_sum3: public max_sub_sequence_sum1 {
 	public:
 		explicit max_sub_sequence_sum3(int * array) : max_sub_sequence_sum1(array) {}
@@ -331,20 +344,45 @@ bool binary_search(int * arr, int k, int n);
 int gcd(int a, int b);
 
 int get_minimum_subsequence_sum(int * arr, int n);
+
 int get_minimum_positive_subsequence_sum(int * arr, int low, int high);
+
 int start_minimum_positive_subsequence_sum(int * arr, int low, int high);
 
+float get_maximum_positive_subsequence_product(float * arr, int low, int high);
+
+float start_minimum_positive_subsequence_product(float * arr, int low, int high);
 
 template<typename T>
 const T & min3(const T & t1, const T & t2, const T & t3);
 
+template<typename T>
+const T & max3(const T & t1, const T & t2, const T & t3);
+
 int main() {
 	//prepare data
-	int arr[5] = {-4,-2,-4,9,-3};
-	int n = 5;
+	int arr[5] = {1,-2,-1,4,-1};
+	int n = 4;
 	//solve problem
 	cout << start_minimum_positive_subsequence_sum(arr,0,n) << "\n";
 }
+
+template<typename T>
+const T & max3(const T & t1, const T & t2, const T & t3) {
+	if (t1 > t2) {
+		if (t1 > t3) {
+			return t1;
+		} else {
+			return t3;
+		}
+	} else {
+		if (t2 > t3) {
+			return t2;
+		} else {
+			return t3;
+		}
+	}
+};
 
 template<typename T>
 const T & min3(const T & t1, const T & t2, const T & t3) {
@@ -362,6 +400,42 @@ const T & min3(const T & t1, const T & t2, const T & t3) {
 		}
 	}
 };
+
+float start_minimum_positive_subsequence_product(float * arr, int low, int high) {
+	return get_maximum_positive_subsequence_product(arr,low,high);
+}
+
+float get_maximum_positive_subsequence_product(float * arr, int low, int high) {
+	if (low == high) {
+		if (arr[low] > 0) {
+			return arr[low];
+		} 
+		return 0;
+	}
+	int middle = (low + high) / 2;
+	int left_low = low;
+	int left_high = middle;
+	int right_low = middle + 1;
+	int right_high = high;
+	int left_minimum_pos_product = get_maximum_positive_subsequence_product(arr,left_low,left_high);
+	int right_minimum_pos_product = get_maximum_positive_subsequence_product(arr,right_low,right_high);
+	int left_product = 1;
+	int right_product;
+	int middle_minimum_pos_product = 0;
+	float result_product;
+	for (int i = left_high; i >= left_low; i--) {
+		left_product *= arr[i];
+		right_product = 1;
+		for (int j = right_low; j <= right_high; j++) {
+			right_product = right_product * arr[j];
+			result_product = right_product * left_product;
+			if (middle_minimum_pos_product < result_product) middle_minimum_pos_product = result_product;
+		}
+		
+		
+	}
+	return max3<int>(left_minimum_pos_product,right_minimum_pos_product,middle_minimum_pos_product);
+}
 
 int start_minimum_positive_subsequence_sum(int * arr, int low, int high) {
 	return get_minimum_positive_subsequence_sum(arr,low,high);
@@ -384,11 +458,13 @@ int get_minimum_positive_subsequence_sum(int * arr, int low, int high) {
 	int left_sum = 0;
 	int right_sum;
 	int middle_minimum_pos_sum = INT_MAX;
+	int result_sum;
 	for (int i = left_high; i >= left_low; i--) {
 		left_sum += arr[i];
 		right_sum = 0;
 		for (int j = right_low; j <= right_high; j++) {
-			right_sum = right_sum + left_sum + arr[j];
+			right_sum = right_sum + arr[j];
+			result_sum = right_sum + left_sum;
 			if (right_sum > 0 && middle_minimum_pos_sum > right_sum) middle_minimum_pos_sum = right_sum;
 		}
 	}
