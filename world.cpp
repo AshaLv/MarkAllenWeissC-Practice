@@ -322,19 +322,26 @@ class max_sub_sequence_sum3: public max_sub_sequence_sum1 {
 		void run(int n);
 };
 
+void hornerrule(float x, int n, float * a);
+
 void print_running_time(func_obj * func_obj,int n);
 
 int main() {
 	//prepare data
-	int arr[] = {3,4,133,-2,3,4,-1};
+	float arr[] = {2,1,0,8,4};
+	float x = 3;
+	int n = 4;
 	//solve problem
-	max_sub_sequence_sum1 s1(arr);
-	max_sub_sequence_sum2 s2(arr);
-	max_sub_sequence_sum3 s3(arr);
-	s1.run(7);
-	s2.run(7);
-	s3.run(7);
+	hornerrule(x,n,arr);
+	cout << 4*pow(x,4) + 8*pow(x,3) + 5 << "\n";
+}
 
+void hornerrule(float x, int n, float * a){
+	float sum = 0;
+	for (int i = n; i >= 0; i--) {
+		sum = x*sum + a[i];
+	}
+	cout << "sum: " << sum << "\n";
 }
 
 void max_sub_sequence_sum1::run(int n) {
