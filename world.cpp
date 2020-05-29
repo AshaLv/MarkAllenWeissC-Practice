@@ -336,6 +336,17 @@ int start_minimum_positive_subsequence_sum(int * arr, int low, int high);
 
 
 template<typename T>
+const T & min3(const T & t1, const T & t2, const T & t3);
+
+int main() {
+	//prepare data
+	int arr[5] = {-4,-2,-4,9,-3};
+	int n = 5;
+	//solve problem
+	cout << start_minimum_positive_subsequence_sum(arr,0,n) << "\n";
+}
+
+template<typename T>
 const T & min3(const T & t1, const T & t2, const T & t3) {
 	if (t1 < t2) {
 		if (t1 < t3) {
@@ -351,14 +362,6 @@ const T & min3(const T & t1, const T & t2, const T & t3) {
 		}
 	}
 };
-
-int main() {
-	//prepare data
-	int arr[5] = {-4,-2,-4,-9,-3};
-	int n = 5;
-	//solve problem
-	cout << start_minimum_positive_subsequence_sum(arr,0,n) << "\n";
-}
 
 int start_minimum_positive_subsequence_sum(int * arr, int low, int high) {
 	return get_minimum_positive_subsequence_sum(arr,low,high);
@@ -379,11 +382,12 @@ int get_minimum_positive_subsequence_sum(int * arr, int low, int high) {
 	int left_minimum_pos_sum = get_minimum_positive_subsequence_sum(arr,left_low,left_high);
 	int right_minimum_pos_sum = get_minimum_positive_subsequence_sum(arr,right_low,right_high);
 	int left_sum = 0;
-	int right_sum = 0;
+	int right_sum;
 	int middle_minimum_pos_sum = INT_MAX;
 	for (int i = left_high; i >= left_low; i--) {
 		left_sum += arr[i];
-		for (int j = right_low; j >= right_high; j--) {
+		right_sum = 0;
+		for (int j = right_low; j <= right_high; j++) {
 			right_sum = right_sum + left_sum + arr[j];
 			if (right_sum > 0 && middle_minimum_pos_sum > right_sum) middle_minimum_pos_sum = right_sum;
 		}
