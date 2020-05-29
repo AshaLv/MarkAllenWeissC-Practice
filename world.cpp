@@ -359,12 +359,37 @@ const T & min3(const T & t1, const T & t2, const T & t3);
 template<typename T>
 const T & max3(const T & t1, const T & t2, const T & t3);
 
+class simple_linear_f {
+	public:
+		float f(float x) const;
+		float guess_x(float low, float high) const;
+};
+
 int main() {
 	//prepare data
-	int arr[5] = {1,-2,-1,4,-1};
-	int n = 4;
+	
 	//solve problem
-	cout << start_minimum_positive_subsequence_sum(arr,0,n) << "\n";
+	simple_linear_f f;
+	cout << f.guess_x(-1,1) << "\n";
+}
+
+float simple_linear_f::f(float x) const {
+	float r =  3 * x + 1;
+	if (abs(r) < 0.000001) return 0;
+	return r;
+}
+
+float simple_linear_f::guess_x(float low, float high) const {
+	//3x + 1
+	float half = (low + high) / 2;
+	float r = f(half);
+	cout << r << "\n";
+	if (r == 0) return half;
+	else if (r > 0) {
+		return guess_x(low, half);
+	} else {
+		return guess_x(half,high);
+	}
 }
 
 template<typename T>
