@@ -365,12 +365,23 @@ class simple_linear_f {
 		float guess_x(float low, float high) const;
 };
 
+bool is_a_prime(int n);
+
 int main() {
 	//prepare data
-	int arr[6] = {1,2,-3,-4,-5,6};
+	int n = 27;
 	//solve problem
-	max_sub_sequence_sum3 s(arr);
-	s.run(6);
+	cout << is_a_prime(n) << "\n";
+}
+
+bool is_a_prime(int n) {
+	if (n == 1) return false;
+	if (n == 3 || n == 2) return true;
+	if (n % 2 == 0) return false;
+	for (int i = 3; i <= pow(n,0.5); i += 2) {
+		if (n % i == 0) return false;
+	}
+	return true;
 }
 
 float simple_linear_f::f(float x) const {
