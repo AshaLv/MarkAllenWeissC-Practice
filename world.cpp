@@ -367,11 +367,41 @@ class simple_linear_f {
 
 bool is_a_prime(int n);
 
+void print_all_prime_until(int n);
+
 int main() {
 	//prepare data
 	int n = 27;
 	//solve problem
-	cout << is_a_prime(n) << "\n";
+	print_all_prime_until(n);
+}
+
+void print_all_prime_until(int n) {
+	// Sieve of Eratosthenes Method
+	int table[n-1];
+	int smallest_prime;
+	int k;
+	for (int i = 2; i <= n; i++) {
+		table[i-2] = i;
+	} 
+	for (int i = 0; i <= n-2; i++) {
+		smallest_prime = table[i];
+		if (smallest_prime == NULL) continue;
+		else if (smallest_prime > pow(n,0.5)) {
+			cout << smallest_prime << "  ";
+			continue;
+		} else {
+			k = 2;
+			int product = smallest_prime * k;
+			while (product <= n) {
+				table[product - 2] = NULL;
+				k++;
+				product = smallest_prime * k;
+			}
+		}
+		cout << smallest_prime << "  ";
+	}
+	cout << "\n";
 }
 
 bool is_a_prime(int n) {
