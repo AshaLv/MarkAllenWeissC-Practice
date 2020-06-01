@@ -369,11 +369,33 @@ bool is_a_prime(int n);
 
 void print_all_prime_until(int n);
 
+double m_pow(float n, int power);
+
 int main() {
 	//prepare data
-	int n = 27;
+	float n = 3;
+	int power = 1;
 	//solve problem
-	print_all_prime_until(n);
+	cout << m_pow(n,4) << "\n";
+}
+
+double m_pow(float n, int power) {
+	if (power == 0) return 1;
+	else if (power == 1) return n;
+	double result = 1;
+	while (power >= 2) {
+		if (power % 2 == 0) {
+			// even number
+			power = power / 2;
+			result *= (n * n);
+		}
+		else {
+			// odd number
+			power = power - 1;
+			result *= n;
+		}
+	}
+	return result;
 }
 
 void print_all_prime_until(int n) {
