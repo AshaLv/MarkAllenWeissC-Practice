@@ -371,14 +371,58 @@ void print_all_prime_until(int n);
 
 double m_pow(float n, int power);
 
+int start_get_majority_element(const int * arr, int size);
+
+int get_majority_element(int * arr, int size);
+
 int main() {
 	//prepare data
-	float n = 3;
-	int power = 15;
+	int arr[12] = {2,5,4,2,3,3,5,3,3,3,3,3};
+	int size = 12;
 	//solve problem
-	cout << pow(n,power) << "\n";
-	cout << m_pow(n,power) << "\n";
+	cout << start_get_majority_element(arr,size) << "\n";
 }
+
+int start_get_majority_element(const int * arr, int size) {
+	int copied_arr[size];
+	for (int i = 0; i < size; i++) {
+		copied_arr[i] = arr[i];
+	}
+	int result = get_majority_element(copied_arr,size);
+	// make sure this is the majority element whose amount is greater than 2/size
+	int standard_count = size / 2;
+	int count = 0;
+	for (int i = 0; i < size; i ++) {
+		if (arr[i] == result) count++;
+	}
+	if (count > standard_count) return result;
+	return NULL;
+}
+
+int get_majority_element(int * arr, int size) {
+	int equal_count = 0; // indicates how many equal numbers found
+	// compare connected elements
+	for (int i = 0; i < size - 1; i += 2) {
+		if (arr[i] != arr[i+1]) continue; // if not equal, ignore it
+		else {
+			arr[equal_count] = arr[i]; // if equal, replace element in order from 0 with this equal value
+			equal_count += 1;
+		}
+	}
+	if (size % 2 == 1) {
+		arr[equal_count] = arr[size - 1]; // if the array size is odd, replace element in order from 0 with the last element
+		equal_count += 1;
+	} 
+	if (equal_count == 0){
+		return NULL;
+	} 
+	else if (equal_count == 1) {
+		return arr[0];
+	}
+	else {
+		return get_majority_element(arr,equal_count);
+	}
+}	
 
 double m_pow(float n, int power) {
 	double even_result = 1;
