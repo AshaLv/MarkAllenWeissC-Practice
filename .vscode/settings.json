@@ -6,7 +6,8 @@
         "iosfwd": "cpp",
         "chrono": "cpp",
         "iterator": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "__locale": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

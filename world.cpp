@@ -374,28 +374,31 @@ double m_pow(float n, int power);
 int main() {
 	//prepare data
 	float n = 3;
-	int power = 1;
+	int power = 15;
 	//solve problem
-	cout << m_pow(n,4) << "\n";
+	cout << pow(n,power) << "\n";
+	cout << m_pow(n,power) << "\n";
 }
 
 double m_pow(float n, int power) {
+	double even_result = 1;
+	double odd_result = 1;
 	if (power == 0) return 1;
 	else if (power == 1) return n;
-	double result = 1;
 	while (power >= 2) {
 		if (power % 2 == 0) {
 			// even number
 			power = power / 2;
-			result *= (n * n);
+			even_result = n * n;
+			n = even_result;
 		}
 		else {
 			// odd number
 			power = power - 1;
-			result *= n;
+			odd_result *= n;
 		}
 	}
-	return result;
+	return odd_result * even_result;
 }
 
 void print_all_prime_until(int n) {
