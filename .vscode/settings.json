@@ -7,7 +7,8 @@
         "chrono": "cpp",
         "iterator": "cpp",
         "vector": "cpp",
-        "__locale": "cpp"
+        "__locale": "cpp",
+        "cstddef": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

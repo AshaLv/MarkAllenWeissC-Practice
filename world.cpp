@@ -375,12 +375,41 @@ int start_get_majority_element(const int * arr, int size);
 
 int get_majority_element(int * arr, int size);
 
+bool is_x_in_the_ordered_matrix(int x, const Matrix<int> & matrix);
+
 int main() {
 	//prepare data
-	int arr[12] = {2,5,4,2,3,3,5,3,3,3,3,3};
-	int size = 12;
+	vector<int> row1;
+	row1.push_back(1);
+	row1.push_back(2);
+	vector<int> row2;
+	row2.push_back(3);
+	row2.push_back(4);
+	Matrix<int> matrix(2,2);
+	matrix[0] = row1;
+	matrix[1] = row2;
 	//solve problem
-	cout << start_get_majority_element(arr,size) << "\n";
+	cout << is_x_in_the_ordered_matrix(43,matrix) << "\n";
+}
+
+bool is_x_in_the_ordered_matrix(int x, const Matrix<int> & matrix) {
+	int cols = matrix.numcols();
+	int rows = matrix.numrows();
+	int index_rows = rows - 1;
+	int index_cols = 0;
+	while (index_cols < cols && index_rows >= 0)
+	{
+		if (matrix[index_rows][index_cols] > x) {
+			// move down along the coloum
+			index_rows -= 1;
+		} else if (matrix[index_rows][index_cols] < x) {
+			// mave foward along the row
+			index_cols += 1;
+		} else {
+			return true;
+		}
+	}
+	return false;
 }
 
 int start_get_majority_element(const int * arr, int size) {
