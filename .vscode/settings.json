@@ -8,7 +8,16 @@
         "iterator": "cpp",
         "vector": "cpp",
         "__locale": "cpp",
-        "cstddef": "cpp"
+        "cstddef": "cpp",
+        "__bit_reference": "cpp",
+        "__split_buffer": "cpp",
+        "string": "cpp",
+        "array": "cpp",
+        "string_view": "cpp",
+        "unordered_map": "cpp",
+        "__hash_table": "cpp",
+        "bitset": "cpp",
+        "initializer_list": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

@@ -1,0 +1,12 @@
+void print_running_time(FunctionObject * function_object) {
+	long start_time = duration_cast< microseconds >(
+		system_clock::now().time_since_epoch()
+	).count();
+	//solve problem
+	function_object->run();
+	//----------
+	long end_time = duration_cast< microseconds >(
+		system_clock::now().time_since_epoch()
+	).count();
+	cout << "It costs: " << end_time - start_time << " microsecond(s)" << "\n";
+}
