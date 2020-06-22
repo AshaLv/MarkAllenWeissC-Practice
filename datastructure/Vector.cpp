@@ -78,6 +78,9 @@ class Vector {
             resize(newSize);
             objects[theSize-1] = obj;
         }
+        Object & back() {
+            return objects[theSize - 1];
+        }
         const Object & back() const {
             return objects[theSize - 1];
         }

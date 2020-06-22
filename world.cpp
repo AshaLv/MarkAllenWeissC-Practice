@@ -1,13 +1,14 @@
 #include <iostream>
+
+using namespace std;
+using namespace std::chrono;
+
 #include "./datastructure/Vector.cpp"
 #include "./datastructure/LinkedList.cpp"
 #include "./datastructure/Stack.cpp"
 #include "./datastructure/Queue.cpp"
 #include "./application/StackApplication.cpp"
-
-
-using namespace std;
-using namespace std::chrono;
+#include "./Application/VectorApplication.cpp"
 
 int main() {
 	//prepare data
@@ -15,11 +16,15 @@ int main() {
 	LinkedList<int> ll; //LinkedList is a good list kind, and good at insert and delete operations in the 0th position;
 	Stack<int> s; //Stack is a special list, but very useful
 	Queue<int> q; //Queue is a special list, but very useful
+
+	Vector<int> L;
+	Vector<int> P;
+	int p[] = {1,2,3,4,5,6,7,8,9,-1};
+	int another_p[] = {0,2,4,6,-1};
+	VectorApplication<int>::populate(L,p);
+	VectorApplication<int>::populate(P,another_p);
 	//solve problem
-	char source[] = {'3','+','2','*','5','+','(','1','+','1',')','*','3'};
-	float result = StackApplication::basicCalculate(source,13);
-	cout << result << "\n";
-	cout << 3+2*5+(1+1)*3 << "\n";
+	VectorApplication<int>::printLots(L,P);
 }
 
 
