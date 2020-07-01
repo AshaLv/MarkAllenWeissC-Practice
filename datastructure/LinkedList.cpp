@@ -1,5 +1,5 @@
-#ifndef LinkedListH
-#define LinkedListH
+#ifndef LinkedListCpp
+#define LinkedListCpp
 template<typename Object>
 class LinkedList {
     private:
@@ -49,6 +49,15 @@ class LinkedList {
                     ++(*this);
                     return old;
                 }
+                const_iterator & operator--() {
+                    current = current->prev;
+                    return *this;
+                }
+                const_iterator operator--(int) {
+                    const_iterator old = *this;
+                    --(*this);
+                    return old;
+                }
                 const Object & operator*() const {
                     return retrieve();
                 }
@@ -74,6 +83,15 @@ class LinkedList {
                 iterator operator++(int) {
                     iterator old = *this;
                     ++(*this);
+                    return old;
+                }
+                iterator & operator--() {
+                    const_iterator::current = const_iterator::current->prev;
+                    return *this;
+                }
+                iterator operator--(int) {
+                    iterator old = *this;
+                    --(*this);
                     return old;
                 }
                 Object & operator*() {
@@ -129,13 +147,11 @@ class LinkedList {
             if (!empty()) {
                 return *(--end());
             }
-            return NULL;
         }
         const Object & back() const {
             if (!empty()) {
                 return *(--end());
             }
-            return NULL;
         }
         void pop_back() {
             if (!empty()) erase(--end());
@@ -147,27 +163,25 @@ class LinkedList {
             if (!empty()) {
                 return *(begin());
             }
-            return NULL;
         }
         const Object & front() const {
             if (!empty()) {
                 return *(begin());
             }
-            return NULL;
         }
         void pop_front() {
             if (!empty()) {
                 erase(begin());
             }
         }
-        iterator insert(iterator itr, const Object & o) {
+        iterator insert(const_iterator itr, const Object & o) {
             theSize++;
             Node * p = itr.current;
             Node * current = new Node(o, p->prev, p);
             p->prev = p->prev->next = current;
             return iterator(current);
         }
-        iterator erase(iterator itr) {
+        iterator erase(const_iterator itr) {
             Node * p = itr.current;
             iterator retVal(p->next);
             p->prev->next = p->next;
@@ -176,7 +190,7 @@ class LinkedList {
             theSize--;
             return retVal;
         }
-        iterator erase(iterator from, iterator to) {
+        iterator erase(const_iterator from, const_iterator to) {
             while(from != to) {
                 from = erase(from);
             }

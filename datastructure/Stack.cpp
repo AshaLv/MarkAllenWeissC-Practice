@@ -1,5 +1,5 @@
-#ifndef StackH
-#define StackH
+#ifndef StackCpp
+#define StackCpp
 
 template <typename Object>
 class Stack {

@@ -1,5 +1,5 @@
-#ifndef QueueH
-#define QueueH
+#ifndef QueueCpp
+#define QueueCpp
 
 template<typename Object>
 class Queue {

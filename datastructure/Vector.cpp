@@ -1,5 +1,5 @@
-#ifndef VectorH
-#define VectorH
+#ifndef VectorCpp
+#define VectorCpp
 
 template <typename Object>
 class Vector {

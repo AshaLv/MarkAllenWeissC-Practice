@@ -1,3 +1,5 @@
+using namespace std::chrono;
+
 void print_running_time(FunctionObject * function_object) {
 	long start_time = duration_cast< microseconds >(
 		system_clock::now().time_since_epoch()
