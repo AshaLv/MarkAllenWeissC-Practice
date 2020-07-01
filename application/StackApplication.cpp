@@ -1,6 +1,6 @@
 #ifndef StackApplicationCpp
 #define StackApplicationCpp
-#include "../datastructure/Stack.cpp"
+#include "../list/Stack.cpp"
 class StackApplication {
     public:
         static int priority(char c) {

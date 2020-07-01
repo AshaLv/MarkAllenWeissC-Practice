@@ -1,6 +1,6 @@
 #ifndef LinkedListApplicationCpp
 #define LinkedListApplicationCpp
-#include "../datastructure/SingleLinkedList.cpp"
+#include "../list/SingleLinkedList.cpp"
 
 template<typename Object>
 class LinkedListApplication {

@@ -1,7 +1,8 @@
 #include <iostream>
 using namespace std;
-#include "datastructure/SingleLinkedList.cpp"
-#include "datastructure/DoubleLinkedList.cpp"
+#include "list/SingleLinkedList.cpp"
+#include "list/DoubleLinkedList.cpp"
+#include "application/IterationApplication.cpp"
 
 int main() {
 	//prepare data
@@ -12,12 +13,8 @@ int main() {
 	double_linked_list.push_back(4);
 	DoubleLinkedList<int>::iterator begin = double_linked_list.begin();
 	DoubleLinkedList<int>::iterator end = double_linked_list.end();
-	double_linked_list.adjacentElementsSwap(++begin);
 	//solve problem
-	begin = double_linked_list.begin();
-	while (begin != end) {
-		cout << *(begin++) << "\n";
-	}
+	cout << *(IterationApplication<DoubleLinkedList<int>::iterator, int>::find(begin, end, 344)) << "\n";
 	
 }
 

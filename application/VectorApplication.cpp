@@ -1,6 +1,6 @@
 #ifndef VectorApplicationCpp
 #define VectorApplicationCpp
-#include "../datastructure/Vector.cpp"
+#include "../list/Vector.cpp"
 
 template<typename Object>
 class VectorApplication {
