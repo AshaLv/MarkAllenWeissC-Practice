@@ -1,25 +1,20 @@
 #include <iostream>
 using namespace std;
 #include "datastructure/SingleLinkedList.cpp"
-#include "application/LinkedListApplication.cpp"
-
-
-
-
+#include "datastructure/DoubleLinkedList.cpp"
 
 int main() {
 	//prepare data
-	SingleLinkedList<int> single_linked_list;
-	single_linked_list.push_back(111);
-	single_linked_list.push_back(2);
-	single_linked_list.push_back(3);
-	single_linked_list.push_back(4);
-	SingleLinkedList<int>::iterator begin = single_linked_list.begin();
-	SingleLinkedList<int>::iterator end = single_linked_list.end();
+	DoubleLinkedList<int> double_linked_list;
+	double_linked_list.push_back(111);
+	double_linked_list.push_back(2);
+	double_linked_list.push_back(3);
+	double_linked_list.push_back(4);
+	DoubleLinkedList<int>::iterator begin = double_linked_list.begin();
+	DoubleLinkedList<int>::iterator end = double_linked_list.end();
+	double_linked_list.adjacentElementsSwap(++begin);
 	//solve problem
-	++begin;
-	single_linked_list.adjacentElementsSwap(++begin);
-	begin = single_linked_list.begin();
+	begin = double_linked_list.begin();
 	while (begin != end) {
 		cout << *(begin++) << "\n";
 	}

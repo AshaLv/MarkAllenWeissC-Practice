@@ -1,18 +1,22 @@
-#ifndef SingleLinkedListCpp
-#define SingleLinkedListCpp
+#ifndef DoubleLinkedListCpp
+#define DoubleLinkedListCpp
+#include "SingleLinkedList.cpp"
+
+
 
 template<typename Object>
-class SingleLinkedList {
+class DoubleLinkedList {
     private:
         struct Node
         {
             Object data;
             Node * next;
+            Node * prev;
 
-            Node(const Object & d = Object(), Node * n = NULL) : data(d), next(n) {}
+            Node(const Object & d = Object(), Node * n = NULL, Node * p = NULL) : data(d), next(n), prev(p) {}
         };
-        
-    protected:
+
+    private:
         int theSize;
         Node * head;
         Node * tail;
@@ -20,9 +24,10 @@ class SingleLinkedList {
     private:
         void init() {
             theSize = 0;
-            head = new Node;
-            tail = new Node;
+            head = new Node();
+            tail = new Node();
             head->next = tail;
+            tail->prev = head;
         }
 
     public:
@@ -31,7 +36,7 @@ class SingleLinkedList {
                 Node * current;
             protected:
                 const_iterator(Node * p) : current(p) {}
-                friend class SingleLinkedList<Object>;
+                friend class DoubleLinkedList<Object>;
                 Object & retrieve() {
                     return current->data;
                 }
@@ -59,7 +64,7 @@ class SingleLinkedList {
         class iterator : public const_iterator {
             protected:
                 iterator(Node * p) : const_iterator(p) {}
-                friend class SingleLinkedList<Object>;
+                friend class DoubleLinkedList<Object>;
             public:
                 iterator() {}
                 iterator operator++() {
@@ -79,20 +84,33 @@ class SingleLinkedList {
                 }
         };
 
+        iterator begin() {
+            return iterator(head->next);
+        }
+        const_iterator begin() const {
+            return iterator(head->next);
+        }
+        iterator end() {
+            return iterator(tail);
+        }
+        const_iterator end() const {
+            return iterator(tail);
+        }
+
     public:
-        SingleLinkedList() {
+        DoubleLinkedList() {
             init();
         }
-        ~SingleLinkedList() {
+        ~DoubleLinkedList() {
             clear();
             delete head;
             delete tail;
         }
-        SingleLinkedList(const SingleLinkedList & rhs) {
+        DoubleLinkedList(const DoubleLinkedList & rhs) {
             init();
             *this = rhs;
         }
-        const SingleLinkedList & operator=(const SingleLinkedList & rhs) {
+        const DoubleLinkedList & operator=(const DoubleLinkedList & rhs) {
             if (this != &rhs) {
                 clear();
                 for (const_iterator itr = rhs.begin(); itr != rhs.end(); itr++) {
@@ -114,18 +132,6 @@ class SingleLinkedList {
                 pop_front();
             }
         }
-        iterator begin() {
-            return iterator(head->next);
-        }
-        const_iterator begin() const {
-            return iterator(head->next);
-        }
-        iterator end() {
-            return iterator(tail);
-        }
-        const_iterator end() const {
-            return iterator(tail);
-        }
 
     public:
         //core methods
@@ -133,25 +139,15 @@ class SingleLinkedList {
             insert(end(), o);
         }
         Object & back() {
-            const_iterator itr = begin();
-            for (int i = 0; i < theSize - 1; i++) {
-                ++itr;
-            }
-            return *(itr);
+           const_iterator itr = end();
+            return *(itr.current->prev);
         }
         const Object & back() const {
-            const_iterator itr = begin();
-            for (int i = 0; i < theSize - 1; i++) {
-                ++itr;
-            }
-            return *(itr);
+            const_iterator itr = end();
+            return *(itr.current->prev);
         }
         void pop_back() {
-            const_iterator itr = begin();
-            for (int i = 0; i < theSize - 1; i++) {
-                ++itr;
-            }
-            erase(itr);
+            erase(end());
         }
         void push_front(const Object & o) {
             insert(begin(), o);
@@ -165,67 +161,40 @@ class SingleLinkedList {
         void pop_front() {
             erase(begin());
         }
-
+        
     public:
         iterator insert(const_iterator itr, const Object & o) {
-            const_iterator begin_itr = begin();
             Node * p = itr.current;
-            Node * newNode = new Node(o, p);
-            if (itr == begin_itr) {
-                head->next = newNode;
-            } else {
-                for (int i = 0; i < theSize; i++) {
-                    if (begin_itr.current->next == itr.current) {
-                        begin_itr.current->next = newNode;
-                        break;
-                    }
-                    ++begin_itr;
-                }
-            }
-            theSize++;
+            Node * prev = p->prev;
+            Node * newNode = new Node(o, p, prev);
+            prev->next = newNode;
+            p->prev = newNode;
+            ++theSize;
             return iterator(newNode);
         }
         iterator erase(const_iterator itr) {
-            const_iterator begin_itr = begin();
             Node * p = itr.current;
             Node * next = p->next;
-            if (itr == begin_itr) {
-                head->next = next;
-            } else {
-                for (int i = 0; i < theSize; i++) {
-                    if (begin_itr.current->next == itr.current) {
-                        begin_itr.current->next = next;
-                        break;
-                    }
-                    ++begin_itr;
-                }
-            }
+            Node * prev = p->prev;
+            prev->next = next;
+            next->prev = prev;
             delete p;
-            theSize--;
+            --theSize;
             return iterator(next);
         }
 
     public:
         void adjacentElementsSwap(const_iterator itr) {
-            const_iterator prev = itr;
-            const_iterator next = const_iterator(itr.current->next);
-            const_iterator begin_itr = begin();
-            const_iterator end_itr = end();
-            // I need the node which is prior to the "prev" node
-            if (begin_itr == prev){
-                head->next = next.current;
-            } 
-            else {
-                while(begin_itr != end_itr) {
-                    if (begin_itr.current->next == prev.current) {
-                        begin_itr.current->next = next.current;
-                        break;
-                    }
-                    ++begin_itr;
-                }
-            } 
-            prev.current->next = next.current->next;
-            next.current->next = prev.current;
+            Node * current = itr.current;
+            Node * prev = current->prev;
+            Node * next = current->next;
+            Node * next_next = next->next;
+            next_next->prev = current;
+            next->next = current;
+            next->prev = prev;
+            current->next = next_next;
+            current->prev = next;
+            prev->next = next;
         }
 
 };
