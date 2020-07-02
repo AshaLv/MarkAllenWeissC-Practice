@@ -5,6 +5,13 @@
 template<typename Object>
 class VectorApplication {
     public:
+        static void printAll(const Vector<Object> & L) {
+            int size = L.size();
+            for (int i = 0; i < size; i++) {
+                cout << L[i] << " ";
+            }
+            cout << "\n";
+        }
         static void printLots(const Vector<Object> & L, const Vector<Object> & P) {
             int p_size = P.size();
             for (int i = 0; i < p_size; i++) {

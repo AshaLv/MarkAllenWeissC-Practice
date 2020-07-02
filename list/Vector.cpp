@@ -77,9 +77,7 @@ class Vector {
             return objects[index];
         }
         void push_back(const Object & obj) {
-            int newSize = theSize + 1;
-            resize(newSize);
-            objects[theSize-1] = obj;
+            insert(theSize, obj);
         }
         Object & back() {
             return objects[theSize - 1];
@@ -88,7 +86,7 @@ class Vector {
             return objects[theSize - 1];
         }
         void pop_back() {
-            theSize--;
+            erase(theSize - 1);
         }
 
     public:
@@ -105,6 +103,27 @@ class Vector {
         }
         const_iterator end() const {
             return &objects[theSize];
+        }
+
+    public:
+        void insert(int i, const Object & x) {
+            int j = theSize;
+            int newSize = theSize + 1;
+            resize(newSize);
+            while(i != j) {
+                objects[j] = objects[j-1];
+                --j;
+            }
+            objects[i] = x;
+        }
+        void erase(int i) {
+            int j = theSize;
+            int newSize = theSize - 1;
+            resize(newSize);
+            while(i != j) {
+                objects[i] = objects[i + 1];
+                ++i;
+            }
         }
 };
 
