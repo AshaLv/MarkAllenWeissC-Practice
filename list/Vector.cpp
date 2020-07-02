@@ -68,6 +68,9 @@ class Vector {
     public:
         //core methods
         Object & operator[](int index) {
+            if (index > (theSize - 1) || index < 0) {
+                cout << "Index Illegal: Vector class line 71;" << "\n";
+            }
             return objects[index];
         }
         const Object & operator[](int index) const {
