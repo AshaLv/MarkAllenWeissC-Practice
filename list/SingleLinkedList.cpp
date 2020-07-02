@@ -32,7 +32,7 @@ class SingleLinkedList {
             protected:
                 const_iterator(Node * p) : current(p) {}
                 friend class SingleLinkedList<Object>;
-                Object & retrieve() {
+                Object & retrieve() const {
                     return current->data;
                 }
             public:

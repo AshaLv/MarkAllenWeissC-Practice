@@ -1,8 +1,5 @@
 #ifndef DoubleLinkedListCpp
 #define DoubleLinkedListCpp
-#include "SingleLinkedList.cpp"
-
-
 
 template<typename Object>
 class DoubleLinkedList {
@@ -37,7 +34,7 @@ class DoubleLinkedList {
             protected:
                 const_iterator(Node * p) : current(p) {}
                 friend class DoubleLinkedList<Object>;
-                Object & retrieve() {
+                Object & retrieve() const {
                     return current->data;
                 }
             public:
@@ -184,6 +181,7 @@ class DoubleLinkedList {
         }
 
     public:
+        //application
         void adjacentElementsSwap(const_iterator itr) {
             Node * current = itr.current;
             Node * prev = current->prev;
@@ -195,6 +193,26 @@ class DoubleLinkedList {
             current->next = next_next;
             current->prev = next;
             prev->next = next;
+        }
+        Object josephus_game(int m) {
+            DoubleLinkedList m_list;
+            m_list = *this;
+            const_iterator begin_itr = m_list.begin();
+            const_iterator end_itr = m_list.end();
+            if (m == 0) {
+                return end_itr.current->prev->data;
+            } else {
+                int n = m_list.size();
+                m = m % n;
+                while(m_list.size() != 1) {
+                    for (int i = 0; i < m; i++) {
+                        if (++begin_itr == end_itr) begin_itr = m_list.begin();
+                    }
+                    begin_itr = m_list.erase(begin_itr);
+                    if (begin_itr == end_itr) begin_itr = m_list.begin();
+                }
+            }
+            return begin_itr.current->data;
         }
 
 };
