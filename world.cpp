@@ -14,7 +14,7 @@ int main() {
 	VectorApplication<int>::populate(v1,p1);
 	VectorApplication<int>::populate(v2,p2);
 	//solve problem
-	Vector<int> v = VectorApplication<int>::common(v1,v2);
+	Vector<int> v = VectorApplication<int>::combine(v1,v2);
 	for (int i = 0; i < v.size(); i++) cout << v[i] << "\n";	
 }
 
