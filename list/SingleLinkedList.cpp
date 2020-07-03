@@ -15,14 +15,11 @@ class SingleLinkedList {
     protected:
         int theSize;
         Node * head;
-        Node * tail;
 
     private:
         void init() {
             theSize = 0;
             head = new Node;
-            tail = new Node;
-            head->next = tail;
         }
 
     public:
@@ -86,7 +83,6 @@ class SingleLinkedList {
         ~SingleLinkedList() {
             clear();
             delete head;
-            delete tail;
         }
         SingleLinkedList(const SingleLinkedList & rhs) {
             init();
@@ -95,9 +91,7 @@ class SingleLinkedList {
         const SingleLinkedList & operator=(const SingleLinkedList & rhs) {
             if (this != &rhs) {
                 clear();
-                for (const_iterator itr = rhs.begin(); itr != rhs.end(); itr++) {
-                    push_back(*itr);
-                }
+                for (const_iterator itr = rhs.begin(); itr != rhs.end(); itr++) push_back(*itr);
             }
             return *this;
         }
@@ -121,10 +115,30 @@ class SingleLinkedList {
             return iterator(head->next);
         }
         iterator end() {
-            return iterator(tail);
+            return iterator(NULL);
         }
         const_iterator end() const {
-            return iterator(tail);
+            return iterator(NULL);
+        }
+        bool contain(const Object & x) {
+            const_iterator c = begin();
+            const_iterator end_itr = end();
+            while (c != end_itr) {
+                if (*(c) == x) return true;
+                ++c;
+            } 
+            return false;
+        }
+        void remove(const Object & x) {
+            const_iterator c = begin();
+            const_iterator end_itr = end();
+            while (c != end_itr) {
+                if (*(c) == x) {
+                    erase(c);
+                    return;
+                }
+                ++c;
+            } 
         }
 
     public:
@@ -167,7 +181,8 @@ class SingleLinkedList {
         }
 
     public:
-        iterator insert(const_iterator itr, const Object & o) {
+        iterator insert(iterator itr, const Object & o) {
+            if (contain(o)) return itr;
             const_iterator begin_itr = begin();
             Node * p = itr.current;
             Node * newNode = new Node(o, p);
