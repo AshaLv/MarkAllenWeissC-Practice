@@ -9,7 +9,7 @@ class Vector {
         Object * objects;
 
     public:
-        const static int minCapacity = 16;
+        const static int minCapacity = 2;
         Vector() : theSize(0), theCapacity(minCapacity) {
             objects = new Object[theCapacity];
         }
@@ -40,6 +40,78 @@ class Vector {
         }
 
     public:
+        class const_iterator {
+            protected:
+                int index;
+                Object * ptr;
+                const_iterator(int i, Object * p) : index(i), ptr(p) {}
+                friend class Vector<Object>;
+                Object & retrive() const {
+                    return ptr[index];
+                }
+            public:
+                const_iterator() : index(-1), ptr(NULL) {}
+                const_iterator operator++() {
+                    ++index;
+                    return *this;
+                }
+                const_iterator operator++(int) {
+                    const_iterator old = *this;
+                    ++(*this);
+                    return old;
+                }
+                const_iterator operator--() {
+                    --index;
+                    return *this;
+                }
+                const_iterator operator--(int) const {
+                    const_iterator old = *this;
+                    --(*this);
+                    return old;
+                }
+                bool operator==(const const_iterator & rhs) const  {
+                    return index == rhs.index;
+                }
+                bool operator!=(const const_iterator & rhs) const  {
+                    return !(*this == rhs);
+                }
+                const Object & operator*() const {
+                    return retrive();
+                }
+        };
+        class iterator : public const_iterator {
+            protected:
+                iterator(int i, Object * p) : const_iterator(i, p) {}
+                friend class Vector<Object>;
+            public:
+                iterator() : const_iterator(-1) {}
+                iterator operator++() {
+                    ++iterator::index;
+                    return *this;
+                }
+                iterator operator++(int) {
+                    iterator old = *this;
+                    ++(*this);
+                    return old;
+                }
+                iterator operator--() {
+                    --iterator::index;
+                    return *this;
+                }
+                iterator operator--(int) const {
+                    iterator old = *this;
+                    --(*this);
+                    return old;
+                }
+                Object & operator*() {
+                    return iterator::retrive();
+                }
+                const Object & operator*() const {
+                    return iterator::retrive();
+                }
+        };
+
+    public:
         int size() const {
             return theSize;
         }
@@ -59,7 +131,7 @@ class Vector {
         void reserve(int newCapacity) {
             if (newCapacity <= theSize) return;
             Object * oldObjects = objects;
-            Object * objects = new Object[newCapacity];
+            objects = new Object[newCapacity];
             for (int i = 0; i < theSize; i++) objects[i] = oldObjects[i];
             delete[] oldObjects;
             theCapacity = newCapacity;
@@ -74,10 +146,13 @@ class Vector {
             return objects[index];
         }
         const Object & operator[](int index) const {
+            if (index > (theSize - 1) || index < 0) {
+                cout << "Index Illegal: Vector class line 71;" << "\n";
+            }
             return objects[index];
         }
         void push_back(const Object & obj) {
-            insert(theSize, obj);
+            insert(end(), obj);
         }
         Object & back() {
             return objects[theSize - 1];
@@ -86,44 +161,47 @@ class Vector {
             return objects[theSize - 1];
         }
         void pop_back() {
-            erase(theSize - 1);
+            erase(--end());
         }
 
     public:
-        typedef Object * iterator;
-        typedef const Object * const_iterator;
         iterator begin() {
-            return &objects[0];
+            return iterator(0, objects);
         }
         const_iterator begin() const {
-            return &objects[0];
+            return iterator(0, objects);
         }
         iterator end() {
-            return &objects[theSize];
+            return iterator(theSize, objects);
         }
         const_iterator end() const {
-            return &objects[theSize];
+            return iterator(theSize, objects);
         }
 
     public:
-        void insert(int i, const Object & x) {
-            int j = theSize;
+        iterator insert(iterator itr, const Object & x) {
             int newSize = theSize + 1;
-            resize(newSize);
-            while(i != j) {
-                objects[j] = objects[j-1];
+            resize(newSize); // when resize occurs, iterators may be invalidated
+            iterator j = --end(); //the index in the (end - 1)
+            iterator j_copy = j;
+            while(itr != j) {
+                *j = *(--j_copy);
                 --j;
             }
-            objects[i] = x;
+            *j = x;
+            return j;
         }
-        void erase(int i) {
-            int j = theSize;
+        iterator erase(iterator itr) {
+            iterator j = end(); //the index in the end
             int newSize = theSize - 1;
-            resize(newSize);
-            while(i != j) {
-                objects[i] = objects[i + 1];
-                ++i;
+            resize(newSize); // when resize occurs, iterators may be invalidated
+            itr = iterator(itr.index, objects);
+            iterator itr_copy = itr;
+            iterator itr_result = itr;
+            while(itr != j) {
+                *(itr++) = *(++itr_copy);
             }
+            return itr_result;
         }
 };
 
