@@ -39,6 +39,13 @@ class DoubleLinkedList {
                 }
             public:
                 const_iterator() : current(NULL) {}
+                const_iterator operator+(int k) const {
+                    const_iterator itr = *(this);
+                    for (int i = 0; i < k; i++) {
+                        ++itr;
+                    }
+                    return itr;
+                }
                 const_iterator operator++() {
                     current = current->next;
                     return *this;
@@ -73,6 +80,13 @@ class DoubleLinkedList {
                 friend class DoubleLinkedList<Object>;
             public:
                 iterator() {}
+                iterator operator+(int k) const {
+                    const_iterator itr = *(this);
+                    for (int i = 0; i < k; i++) {
+                        ++itr;
+                    }
+                    return itr;
+                }
                 iterator operator++() {
                     iterator::current = iterator::current->next;
                     return *this;

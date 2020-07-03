@@ -1,25 +1,23 @@
 #include <iostream>
 using namespace std;
-#include "list/SingleLinkedList.cpp"
-// #include "list/DoubleLinkedList.cpp"
+// #include "list/SingleLinkedList.cpp"
+#include "list/DoubleLinkedList.cpp"
 // #include "application/LinkedListApplication.cpp"
 // #include "list/Vector.cpp"
 // #include "application/VectorApplication.cpp"
 int main() {
 	//prepare data
-	SingleLinkedList<int> s1;
-	s1.push_back(3);
-	s1.push_back(2);
-	s1.push_back(1);
-	s1.push_back(421);
-	s1.push_back(13214);
-	s1.push_back(10);
-	s1.push_back(8);
-	s1.push_back(9);
-	SingleLinkedList<int>::const_iterator c = s1.begin();
-	SingleLinkedList<int>::const_iterator end_itr = s1.end();
+	DoubleLinkedList<int> d1;
+	d1.push_back(1);
+	d1.push_back(2);
+	d1.push_back(3);
+	DoubleLinkedList<int>::const_iterator itr = d1.begin();
+	d1.insert(itr+3,4);
+	d1.insert(itr,444);
+	itr = d1.begin();
+	DoubleLinkedList<int>::const_iterator end_itr = d1.end();
 	//solve problem
-	while (c != end_itr) cout << *(c++) << "\n";
+	while(itr != end_itr) cout << *(itr++) << "\n";
 }
 
 
