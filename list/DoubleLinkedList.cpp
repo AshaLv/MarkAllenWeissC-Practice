@@ -48,6 +48,15 @@ class DoubleLinkedList {
                     ++(*this);
                     return old;
                 }
+                const_iterator operator--() {
+                    current = current->prev;
+                    return *this;
+                }
+                const_iterator operator--(int) {
+                    const_iterator old = *this;
+                    --(*this);
+                    return old;
+                }
                 const Object & operator*() const {
                     return retrieve();
                 }
@@ -71,6 +80,15 @@ class DoubleLinkedList {
                 iterator operator++(int) {
                     iterator old = *this;
                     ++(*this);
+                    return old;
+                }
+                iterator operator--() {
+                    iterator::current = iterator::current->prev;
+                    return *this;
+                }
+                iterator operator--(int) {
+                    iterator old = *this;
+                    --(*this);
                     return old;
                 }
                 Object & operator*() {
