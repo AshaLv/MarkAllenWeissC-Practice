@@ -96,6 +96,15 @@ class SingleLinkedList {
             return *this;
         }
 
+    private:
+        struct Pair
+        {
+            bool existed;
+            iterator itr;
+
+            Pair(bool m_existed, iterator m_itr) : existed(m_existed), itr(m_itr) {}
+        };
+
     public:
         int size() const {
             return theSize;
@@ -120,14 +129,18 @@ class SingleLinkedList {
         const_iterator end() const {
             return iterator(NULL);
         }
-        bool contain(const Object & x) {
-            const_iterator c = begin();
-            const_iterator end_itr = end();
+        Pair contain(const Object & x) {
+            iterator c = begin();
+            iterator end_itr = end();
             while (c != end_itr) {
-                if (*(c) == x) return true;
+                if (*(c) == x) {
+                    return Pair(true, c);
+                } else if (*(c) > x) {
+                    return Pair(false, c);;
+                }
                 ++c;
             } 
-            return false;
+            return Pair(false, c);;
         }
         void remove(const Object & x) {
             const_iterator c = begin();
@@ -182,7 +195,13 @@ class SingleLinkedList {
 
     public:
         iterator insert(iterator itr, const Object & o) {
-            if (contain(o)) return itr;
+            Pair m_pair = contain(o);
+            if (m_pair.existed) {
+                return itr;
+            } 
+            else {
+                itr = m_pair.itr;
+            } 
             const_iterator begin_itr = begin();
             Node * p = itr.current;
             Node * newNode = new Node(o, p);
