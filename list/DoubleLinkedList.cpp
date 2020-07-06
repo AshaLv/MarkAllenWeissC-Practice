@@ -81,7 +81,7 @@ class DoubleLinkedList {
             public:
                 iterator() {}
                 iterator operator+(int k) const {
-                    const_iterator itr = *(this);
+                    iterator itr = *(this);
                     for (int i = 0; i < k; i++) {
                         ++itr;
                     }
@@ -161,6 +161,28 @@ class DoubleLinkedList {
                 pop_front();
             }
         }
+        void splice(iterator position, DoubleLinkedList<Object> & list) {
+            if (&list == this) return;
+            Node * prev_node = position.current->prev;
+            Node * next_node = position.current;
+            iterator begin_itr = list.begin();
+            iterator end_itr = list.end();
+            Node * list_first_node = begin_itr.current;
+            Node * list_last_node = end_itr.current->prev;
+            Node * list_head = begin_itr.current->prev;
+            Node * list_tail = end_itr.current;
+            // splice lists
+            prev_node->next = list_first_node;
+            list_first_node->prev = prev_node;
+            next_node->prev = list_last_node;
+            list_last_node->next = next_node;
+            // delete list nodes
+            list_head->next = list_tail;
+            list_tail->prev = list_head;
+            // reset theSize
+            theSize = list.theSize + theSize;
+            list.theSize = 0;
+        }
 
     public:
         //core methods
@@ -168,7 +190,7 @@ class DoubleLinkedList {
             insert(end(), o);
         }
         Object & back() {
-           const_iterator itr = end();
+            const_iterator itr = end();
             return *(itr.current->prev);
         }
         const Object & back() const {

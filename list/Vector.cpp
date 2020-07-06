@@ -51,6 +51,13 @@ class Vector {
                 }
             public:
                 const_iterator() : index(-1), ptr(NULL) {}
+                const_iterator operator+(int k) const {
+                    const_iterator itr = *(this);
+                    for (int i = 0; i < k; i++) {
+                        ++itr;
+                    }
+                    return itr;
+                }
                 const_iterator operator++() {
                     ++index;
                     return *this;
@@ -85,6 +92,13 @@ class Vector {
                 friend class Vector<Object>;
             public:
                 iterator() : const_iterator(-1) {}
+                iterator operator+(int k) const {
+                    iterator itr = *(this);
+                    for (int i = 0; i < k; i++) {
+                        ++itr;
+                    }
+                    return itr;
+                }
                 iterator operator++() {
                     ++iterator::index;
                     return *this;
