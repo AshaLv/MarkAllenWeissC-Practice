@@ -6,11 +6,14 @@ template<typename Object>
 class VectorApplication {
     public:
         static void printAll(const Vector<Object> & L) {
-            int size = L.size();
-            for (int i = 0; i < size; i++) {
-                cout << L[i] << " ";
-            }
-            cout << "\n";
+            typename Vector<Object>::const_iterator begin_itr = L.begin();
+            typename Vector<Object>::const_iterator end_itr = L.end();
+            while(begin_itr != end_itr) cout << *(begin_itr++) << "\n";
+        }
+        static void rprintAll(const Vector<Object> & L) {
+            typename Vector<Object>::const_reverse_iterator begin_itr = L.rbegin();
+            typename Vector<Object>::const_reverse_iterator end_itr = L.rend();
+            while(begin_itr != end_itr) cout << *(begin_itr++) << "\n";
         }
         static void printLots(const Vector<Object> & L, const Vector<Object> & P) {
             int p_size = P.size();

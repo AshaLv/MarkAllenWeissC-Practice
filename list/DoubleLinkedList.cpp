@@ -112,6 +112,90 @@ class DoubleLinkedList {
                     return iterator::retrieve();
                 }
         };
+        class const_reverse_iterator {
+            protected:
+                Node * current;
+            protected:
+                const_reverse_iterator(Node * p) : current(p) {}
+                friend class DoubleLinkedList<Object>;
+                Object & retrieve() const {
+                    return current->data;
+                }
+            public:
+                const_reverse_iterator() : current(NULL) {}
+                const_reverse_iterator operator+(int k) const {
+                    const_reverse_iterator itr = *(this);
+                    for (int i = 0; i < k; i++) {
+                        --itr;
+                    }
+                    return itr;
+                }
+                const_reverse_iterator operator++() {
+                    current = current->prev;
+                    return *this;
+                }
+                const_reverse_iterator operator++(int) {
+                    const_reverse_iterator old = *this;
+                    ++(*this);
+                    return old;
+                }
+                const_reverse_iterator operator--() {
+                    current = current->next;
+                    return *this;
+                }
+                const_reverse_iterator operator--(int) {
+                    const_reverse_iterator old = *this;
+                    --(*this);
+                    return old;
+                }
+                const Object & operator*() const {
+                    return retrieve();
+                }
+                bool operator==(const const_reverse_iterator & rhs) const {
+                    return (current == rhs.current);
+                } 
+                bool operator!=(const const_reverse_iterator & rhs) const {
+                    return !(*this == rhs);
+                } 
+        };
+        class reverse_iterator : public const_reverse_iterator {
+            protected:
+                reverse_iterator(Node * p) : const_reverse_iterator(p) {}
+                friend class DoubleLinkedList<Object>;
+            public:
+                reverse_iterator() {}
+                reverse_iterator operator+(int k) const {
+                    reverse_iterator itr = *(this);
+                    for (int i = 0; i < k; i++) {
+                        --itr;
+                    }
+                    return itr;
+                }
+                reverse_iterator operator++() {
+                    reverse_iterator::current = reverse_iterator::current->prev;
+                    return *this;
+                }
+                reverse_iterator operator++(int) {
+                    reverse_iterator old = *this;
+                    ++(*this);
+                    return old;
+                }
+                reverse_iterator operator--() {
+                    reverse_iterator::current = reverse_iterator::current->next;
+                    return *this;
+                }
+                reverse_iterator operator--(int) {
+                    reverse_iterator old = *this;
+                    --(*this);
+                    return old;
+                }
+                Object & operator*() {
+                    return reverse_iterator::retrieve();
+                }
+                const Object & operator*() const {
+                    return reverse_iterator::retrieve();
+                }
+        };
 
         iterator begin() {
             return iterator(head->next);
@@ -124,6 +208,18 @@ class DoubleLinkedList {
         }
         const_iterator end() const {
             return iterator(tail);
+        }
+        reverse_iterator rbegin() {
+            return reverse_iterator(tail->prev);
+        }
+        const_reverse_iterator rbegin() const {
+            return reverse_iterator(tail->prev);
+        }
+        reverse_iterator rend() {
+            return reverse_iterator(head);
+        }
+        const_reverse_iterator rend() const {
+            return reverse_iterator(head);
         }
 
     public:

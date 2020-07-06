@@ -16,6 +16,11 @@ class LinkedListApplication {
             typename DoubleLinkedList<Object>::const_iterator end_itr = L.end();
             while(itr != end_itr) cout << *(itr++) << "\n";
         } 
+        static void rprintAll(const DoubleLinkedList<Object> & L) {
+            typename DoubleLinkedList<Object>::const_reverse_iterator itr = L.rbegin();
+            typename DoubleLinkedList<Object>::const_reverse_iterator end_itr = L.rend();
+            while(itr != end_itr) cout << *(itr++) << "\n";
+        } 
 };
 
 #endif

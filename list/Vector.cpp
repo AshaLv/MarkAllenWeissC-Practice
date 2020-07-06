@@ -124,6 +124,90 @@ class Vector {
                     return iterator::retrive();
                 }
         };
+        class const_reverse_iterator {
+            protected:
+                int index;
+                Object * ptr;
+                const_reverse_iterator(int i, Object * p) : index(i), ptr(p) {}
+                friend class Vector<Object>;
+                Object & retrive() const {
+                    return ptr[index];
+                }
+            public:
+                const_reverse_iterator() : index(-1), ptr(NULL) {}
+                const_reverse_iterator operator+(int k) const {
+                    const_reverse_iterator itr = *(this);
+                    for (int i = 0; i < k; i++) {
+                        --itr;
+                    }
+                    return itr;
+                }
+                const_reverse_iterator operator++() {
+                    --index;
+                    return *this;
+                }
+                const_reverse_iterator operator++(int) {
+                    const_reverse_iterator old = *this;
+                    ++(*this);
+                    return old;
+                }
+                const_reverse_iterator operator--() {
+                    ++index;
+                    return *this;
+                }
+                const_reverse_iterator operator--(int) const {
+                    const_reverse_iterator old = *this;
+                    --(*this);
+                    return old;
+                }
+                bool operator==(const const_reverse_iterator & rhs) const  {
+                    return index == rhs.index;
+                }
+                bool operator!=(const const_reverse_iterator & rhs) const  {
+                    return !(*this == rhs);
+                }
+                const Object & operator*() const {
+                    return retrive();
+                }
+        };
+        class reverse_iterator : public const_reverse_iterator {
+            protected:
+                reverse_iterator(int i, Object * p) : const_reverse_iterator(i, p) {}
+                friend class Vector<Object>;
+            public:
+                reverse_iterator() : const_reverse_iterator(-1, NULL) {}
+                reverse_iterator operator+(int k) const {
+                    reverse_iterator itr = *(this);
+                    for (int i = 0; i < k; i++) {
+                        --itr;
+                    }
+                    return itr;
+                }
+                reverse_iterator operator++() {
+                    --reverse_iterator::index;
+                    return *this;
+                }
+                reverse_iterator operator++(int) {
+                    reverse_iterator old = *this;
+                    ++(*this);
+                    return old;
+                }
+                reverse_iterator operator--() {
+                    ++reverse_iterator::index;
+                    return *this;
+                }
+                reverse_iterator operator--(int) const {
+                    reverse_iterator old = *this;
+                    --(*this);
+                    return old;
+                }
+                Object & operator*() {
+                    return reverse_iterator::retrive();
+                }
+                const Object & operator*() const {
+                    return reverse_iterator::retrive();
+                }
+        };
 
     public:
         int size() const {
@@ -190,6 +274,18 @@ class Vector {
         }
         const_iterator end() const {
             return iterator(theSize, objects);
+        }
+        reverse_iterator rbegin() {
+            return reverse_iterator(theSize-1, objects);
+        }
+        const_reverse_iterator rbegin() const {
+            return reverse_iterator(theSize-1, objects);
+        }
+        reverse_iterator rend() {
+            return reverse_iterator(-1, objects);
+        }
+        const_reverse_iterator rend() const {
+            return reverse_iterator(-1, objects);
         }
 
     public:
