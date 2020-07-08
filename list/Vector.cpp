@@ -85,6 +85,11 @@ class Vector {
                 const Object & operator*() const {
                     return retrive();
                 }
+                void assertIsValid(Object * p) const {
+                    if (index == -1 || ptr == NULL || p != ptr) {
+                        throw "bounds exception";
+                    }
+                }
         };
         class iterator : public const_iterator {
             protected:
@@ -290,28 +295,44 @@ class Vector {
 
     public:
         iterator insert(iterator itr, const Object & x) {
-            int newSize = theSize + 1;
-            resize(newSize); // when resize occurs, iterators may be invalidated
-            iterator j = --end(); //the index in the (end - 1)
-            iterator j_copy = j;
-            while(itr != j) {
-                *j = *(--j_copy);
-                --j;
+            try
+            {
+                itr.assertIsValid(objects);
+                int newSize = theSize + 1;
+                resize(newSize); // when resize occurs, iterators may be invalidated
+                iterator j = --end(); //the index in the (end - 1)
+                iterator j_copy = j;
+                while(itr != j) {
+                    *j = *(--j_copy);
+                    --j;
+                }
+                *j = x;
+                return j;
             }
-            *j = x;
-            return j;
+            catch(const char* msg)
+            {
+                std::cerr << msg << '\n';
+            }
         }
         iterator erase(iterator itr) {
-            iterator j = end(); //the index in the end
-            int newSize = theSize - 1;
-            resize(newSize); // when resize occurs, iterators may be invalidated
-            itr = iterator(itr.index, objects);
-            iterator itr_copy = itr;
-            iterator itr_result = itr;
-            while(itr != j) {
-                *(itr++) = *(++itr_copy);
+            try
+            {
+                itr.assertIsValid(objects);
+                iterator j = end(); //the index in the end
+                int newSize = theSize - 1;
+                resize(newSize); // when resize occurs, iterators may be invalidated
+                itr = iterator(itr.index, objects);
+                iterator itr_copy = itr;
+                iterator itr_result = itr;
+                while(itr != j) {
+                    *(itr++) = *(++itr_copy);
+                }
+                return itr_result;
             }
-            return itr_result;
+            catch(const char* msg)
+            {
+                std::cerr << msg << '\n';
+            }
         }
 };
 

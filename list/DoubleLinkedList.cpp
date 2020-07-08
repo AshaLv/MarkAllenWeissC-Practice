@@ -9,8 +9,9 @@ class DoubleLinkedList {
             Object data;
             Node * next;
             Node * prev;
+            int flag;
 
-            Node(const Object & d = Object(), Node * n = NULL, Node * p = NULL) : data(d), next(n), prev(p) {}
+            Node(const Object & d = Object(), Node * n = NULL, Node * p = NULL) : data(d), next(n), prev(p),flag(0) {}
         };
 
     private:
@@ -74,9 +75,15 @@ class DoubleLinkedList {
                     return !(*this == rhs);
                 } 
                 void assertIsValid() const {
-                    if (current == NULL) {
+                    if (current == NULL ||  current->flag == -1) {
                         throw "bounds exception";
                     }
+                }
+                void delete_current() {
+                    Node * old = current;
+                    delete old;
+                    current->flag = -1;
+                    cout << "delete iterator" << "\n";
                 }
         };
         class iterator : public const_iterator {
@@ -263,26 +270,34 @@ class DoubleLinkedList {
             }
         }
         void splice(iterator position, DoubleLinkedList<Object> & list) {
-            if (&list == this) return;
-            Node * prev_node = position.current->prev;
-            Node * next_node = position.current;
-            iterator begin_itr = list.begin();
-            iterator end_itr = list.end();
-            Node * list_first_node = begin_itr.current;
-            Node * list_last_node = end_itr.current->prev;
-            Node * list_head = begin_itr.current->prev;
-            Node * list_tail = end_itr.current;
-            // splice lists
-            prev_node->next = list_first_node;
-            list_first_node->prev = prev_node;
-            next_node->prev = list_last_node;
-            list_last_node->next = next_node;
-            // delete list nodes
-            list_head->next = list_tail;
-            list_tail->prev = list_head;
-            // reset theSize
-            theSize = list.theSize + theSize;
-            list.theSize = 0;
+            try
+            {
+                position.assertIsValid();
+                if (&list == this) return;
+                Node * prev_node = position.current->prev;
+                Node * next_node = position.current;
+                iterator begin_itr = list.begin();
+                iterator end_itr = list.end();
+                Node * list_first_node = begin_itr.current;
+                Node * list_last_node = end_itr.current->prev;
+                Node * list_head = begin_itr.current->prev;
+                Node * list_tail = end_itr.current;
+                // splice lists
+                prev_node->next = list_first_node;
+                list_first_node->prev = prev_node;
+                next_node->prev = list_last_node;
+                list_last_node->next = next_node;
+                // delete list nodes
+                list_head->next = list_tail;
+                list_tail->prev = list_head;
+                // reset theSize
+                theSize = list.theSize + theSize;
+                list.theSize = 0;
+            }
+            catch(const char* msg)
+            {
+                std::cerr << msg << '\n';
+            }
         }
 
     public:
@@ -317,7 +332,7 @@ class DoubleLinkedList {
     public:
         iterator insert(iterator itr, const Object & o) {
             try
-            {
+            {   
                 itr.assertIsValid();
                 Node * p = itr.current;
                 Node * prev = p->prev;
@@ -341,7 +356,7 @@ class DoubleLinkedList {
                 Node * prev = p->prev;
                 prev->next = next;
                 next->prev = prev;
-                delete p;
+                itr.delete_current();
                 --theSize;
                 return iterator(next);
             }
