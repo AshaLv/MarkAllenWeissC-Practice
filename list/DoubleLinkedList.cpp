@@ -1,5 +1,7 @@
 #ifndef DoubleLinkedListCpp
 #define DoubleLinkedListCpp
+#include <iostream>
+using namespace std;
 
 template<typename Object>
 class DoubleLinkedList {
@@ -357,13 +359,13 @@ class DoubleLinkedList {
                 prev->next = next;
                 next->prev = prev;
                 itr.delete_current();
-                --theSize;
-                return iterator(next);
             }
             catch(const char* msg)
             {
                 std::cerr << msg << '\n';
             }
+            --theSize;
+            return iterator(next);
         }
 
     public:

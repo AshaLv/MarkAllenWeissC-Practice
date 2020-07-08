@@ -1,5 +1,7 @@
 #ifndef QueueCpp
 #define QueueCpp
+#include <iostream>
+using namespace std;
 
 template<typename Object>
 class Queue {

@@ -1,5 +1,7 @@
 #ifndef SingleLinkedListCpp
 #define SingleLinkedListCpp
+#include <iostream>
+using namespace std;
 
 template<typename Object>
 class SingleLinkedList {

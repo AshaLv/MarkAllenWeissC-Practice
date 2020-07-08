@@ -27,6 +27,13 @@ class VectorApplication {
                 L.push_back(*(p++));
             }
         } 
+        static void populate(Vector<Object> & L, Object * p, int size) {
+            int i = 0;
+            while (i < size) {
+                L.push_back(*(p++));
+                ++i;
+            }
+        } 
         static const Vector<Object> common(const Vector<Object> & v1, const Vector<Object> & v2) {
             // v1 and v2 are sorted 
             int v1_size = v1.size();

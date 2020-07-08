@@ -1,5 +1,7 @@
 #ifndef VectorCpp
 #define VectorCpp
+#include <iostream>
+using namespace std;
 
 template <typename Object>
 class Vector {
@@ -223,6 +225,18 @@ class Vector {
         }
         bool empty() const {
             return (theSize == 0);
+        }
+        bool contain(const Object & x) const {
+            for(int i = 0; i < theSize; i++) {
+                if (objects[i] == x) return true;
+            }
+            return false;
+        }
+        int find(const Object & x) const {
+            for(int i = 0; i < theSize; i++) {
+                if (objects[i] == x) return i;
+            }
+            return -1;
         }
         void resize(int newSize) {
             if (newSize > theCapacity || newSize <= theCapacity / 4) {

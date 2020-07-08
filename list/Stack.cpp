@@ -1,5 +1,7 @@
 #ifndef StackCpp
 #define StackCpp
+#include <iostream>
+using namespace std;
 
 template <typename Object>
 class Stack {

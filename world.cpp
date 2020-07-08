@@ -1,20 +1,33 @@
 #include <iostream>
-using namespace std;
 // #include "list/SingleLinkedList.cpp"
 // #include "list/DoubleLinkedList.cpp"
 // #include "application/LinkedListApplication.cpp"
-#include "list/Vector.cpp"
-#include "application/VectorApplication.cpp"
+// #include "list/Vector.cpp"
+// #include "application/VectorApplication.cpp"
+#include "application/StackApplication.cpp"
+#include <string>
+using namespace std;
+
 int main() {
 	//prepare data
-	Vector<int> d1;
-	int i2[] = {5,6,-1};
-	VectorApplication<int>::populate(d1, i2);
-	Vector<int>::iterator itr = d1.begin();
+	string pascal_code = "#Pascalbegin324232(dsj3)[dsjfs]{beginfsgfhsfgsend}end";
+	string c_code = "#C++/*hjfklhj*/begin324232(dsj3)[dsjfs]{fsgfhsfgs}end";
 	// solve problem
-	d1.insert(itr,7);
-	d1.erase(itr);
-	VectorApplication<int>::printAll(d1);
+	try
+	{
+		cout << "checking pascal code:\n";
+		StackApplication::check_balancing_symbols_for_all_languages(pascal_code);
+		cout << "checking c++ code:\n";
+		StackApplication::check_balancing_symbols_for_all_languages(c_code);
+	}
+	catch(const char* msg)
+	{
+		std::cerr << msg << '\n';
+	}
+	
+	
+	
+	
 }
 
 
