@@ -6,9 +6,36 @@
 #include <string>
 class StackApplication {
     public:
-        // static void check_balancing_symbols(const Stack & stack1; const string & string1) {
-
-        // }
+        static float float_it(const string & operand) {
+            return operand[0] - 48; // only consider 0-9;
+        }
+        static void calculte(Stack<float> & expression_stack, const string & m_operator) {
+            float right_operand = expression_stack.top();
+            expression_stack.pop_back();
+            float left_operand = expression_stack.top();
+            expression_stack.pop_back();
+            if (m_operator == "+") expression_stack.push_back(left_operand + right_operand);
+            else if (m_operator == "-") expression_stack.push_back(left_operand - right_operand);
+            else if (m_operator == "*") expression_stack.push_back(left_operand * right_operand);
+            else if (m_operator == "/") expression_stack.push_back(left_operand / right_operand);
+            else throw "Exception: operator exception";
+        }   
+        static float evaluate_postfix_expression(const string * postfix_expression) {
+            string end_flag = "\n";
+            Stack<float> expression_stack;
+            Vector<string> operator_vector;
+            string operators[4] = {"+","-","*","/"};
+            VectorApplication<string>::populate(operator_vector, operators, 4);
+            while (*postfix_expression != end_flag) {
+                if ( operator_vector.contain(*(postfix_expression)) ) {
+                    calculte(expression_stack, *(postfix_expression));
+                } else {
+                    expression_stack.push_back(float_it(*(postfix_expression)));
+                }
+                ++postfix_expression;
+            }
+            return expression_stack.top();
+        }
         static void check_balancing_symbols_for_all_languages(const string & source) {
             Stack<string> check_stack;
             char language_first_letter = source[1];

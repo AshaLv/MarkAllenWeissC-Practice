@@ -10,23 +10,17 @@ using namespace std;
 
 int main() {
 	//prepare data
-	string pascal_code = "#Pascalbegin324232(dsj3)[dsjfs]{beginfsgfhsfgsend}end";
-	string c_code = "#C++/*hjfklhj*/begin324232(dsj3)[dsjfs]{fsgfhsfgs}end";
+	string postfix_expression[] = {"3","4","+","3","5","+","+","\n"};
 	// solve problem
 	try
 	{
-		cout << "checking pascal code:\n";
-		StackApplication::check_balancing_symbols_for_all_languages(pascal_code);
-		cout << "checking c++ code:\n";
-		StackApplication::check_balancing_symbols_for_all_languages(c_code);
+		cout << "postfix expression evaluation: ";
+		cout << StackApplication::evaluate_postfix_expression(postfix_expression) << "\n";
 	}
 	catch(const char* msg)
 	{
 		std::cerr << msg << '\n';
 	}
-	
-	
-	
 	
 }
 
