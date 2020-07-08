@@ -10,16 +10,10 @@ int main() {
 	DoubleLinkedList<int> d1;
 	int i2[] = {5,6,7,8,9,-1};
 	LinkedListApplication<int>::populate(d1, i2);
-	Vector<int> v1;
-	VectorApplication<int>::populate(v1, i2);
+	DoubleLinkedList<int>::iterator itr;
 	//solve problem
-	LinkedListApplication<int>::printAll(d1);
-	cout << "\n";
-	LinkedListApplication<int>::rprintAll(d1);
-	cout << "######\n";
-	VectorApplication<int>::printAll(v1);
-	cout << "\n";
-	VectorApplication<int>::rprintAll(v1);
+	d1.insert(itr,3);
+	
 }
 
 

@@ -20,7 +20,8 @@
         "initializer_list": "cpp",
         "atomic": "cpp",
         "ios": "cpp",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "exception": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

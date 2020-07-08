@@ -73,6 +73,11 @@ class DoubleLinkedList {
                 bool operator!=(const const_iterator & rhs) const {
                     return !(*this == rhs);
                 } 
+                void assertIsValid() const {
+                    if (current == NULL) {
+                        throw "bounds exception";
+                    }
+                }
         };
         class iterator : public const_iterator {
             protected:
@@ -310,29 +315,45 @@ class DoubleLinkedList {
         }
         
     public:
-        iterator insert(const_iterator itr, const Object & o) {
-            Node * p = itr.current;
-            Node * prev = p->prev;
-            Node * newNode = new Node(o, p, prev);
-            prev->next = newNode;
-            p->prev = newNode;
-            ++theSize;
-            return iterator(newNode);
+        iterator insert(iterator itr, const Object & o) {
+            try
+            {
+                itr.assertIsValid();
+                Node * p = itr.current;
+                Node * prev = p->prev;
+                Node * newNode = new Node(o, p, prev);
+                prev->next = newNode;
+                p->prev = newNode;
+                ++theSize;
+                return iterator(newNode);
+            }
+            catch(const char* msg)
+            {
+                std::cerr << msg << '\n';
+            }
         }
-        iterator erase(const_iterator itr) {
-            Node * p = itr.current;
-            Node * next = p->next;
-            Node * prev = p->prev;
-            prev->next = next;
-            next->prev = prev;
-            delete p;
-            --theSize;
-            return iterator(next);
+        iterator erase(iterator itr) {
+            try
+            {
+                itr.assertIsValid();
+                Node * p = itr.current;
+                Node * next = p->next;
+                Node * prev = p->prev;
+                prev->next = next;
+                next->prev = prev;
+                delete p;
+                --theSize;
+                return iterator(next);
+            }
+            catch(const char* msg)
+            {
+                std::cerr << msg << '\n';
+            }
         }
 
     public:
         //application
-        void adjacentElementsSwap(const_iterator itr) {
+        void adjacentElementsSwap(iterator itr) {
             Node * current = itr.current;
             Node * prev = current->prev;
             Node * next = current->next;
