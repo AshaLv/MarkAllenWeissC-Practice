@@ -8,6 +8,12 @@ class TwoStacks {
         T * objects;
         short left;
         short right;
+        void init () {
+            size = 16;
+            objects = new T[size];
+            left = 0;
+            right = size - 1;
+        }
     private:
         void check_overflow() {
             if (left > right || left < 0 || right > size - 1) {
@@ -16,21 +22,21 @@ class TwoStacks {
         }
     public:
         TwoStacks() {
-            size = 16;
-            objects = new T[size];
-            left = 0;
-            right = size - 1;
+            init();
         }
         ~TwoStacks() {
             delete[] objects;
         }
         TwoStacks(const TwoStacks & rhs) {
+            init();
             *this = rhs;
         }
         const TwoStacks & operator=(const TwoStacks & rhs) {
             if (this != & rhs) {
                 for (short i = 0; i < 16; i++)
                 {
+                    left = rhs.left;
+                    right = rhs.right;
                     objects[i] = rhs.objects[i];
                 }
             }
