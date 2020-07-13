@@ -21,7 +21,8 @@
         "atomic": "cpp",
         "ios": "cpp",
         "system_error": "cpp",
-        "exception": "cpp"
+        "exception": "cpp",
+        "new": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

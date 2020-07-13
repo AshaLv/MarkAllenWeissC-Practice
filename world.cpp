@@ -9,13 +9,13 @@
 using namespace std;
 
 int main() {
-	//prepare data
-	string postfix_expression[] = {"3","4","+","3","5","+","+","\n"};
-	// solve problem
 	try
 	{
-		cout << "postfix expression evaluation: ";
-		cout << StackApplication::evaluate_postfix_expression(postfix_expression) << "\n";
+		string postfix_expression[] = {"3","4","+","3","5","+","+","4","*","\n"};
+		// string postfix_expression[] = {"3","4","+","\n"};
+		string infix_expression = StackApplication::postfix_to_infix(postfix_expression);
+		cout << infix_expression << "\n";
+		cout << "\n";
 	}
 	catch(const char* msg)
 	{

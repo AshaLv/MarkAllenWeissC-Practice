@@ -78,7 +78,7 @@ class Stack {
             return objects[theSize - 1];
         }
         void pop_back() {
-            theSize--;
+            --theSize;
         }
 
 };

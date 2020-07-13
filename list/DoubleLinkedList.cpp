@@ -354,18 +354,18 @@ class DoubleLinkedList {
             {
                 itr.assertIsValid();
                 Node * p = itr.current;
-                Node * next = p->next;
-                Node * prev = p->prev;
-                prev->next = next;
-                next->prev = prev;
+                Node * m_next = p->next;
+                Node * m_prev = p->prev;
+                m_prev->next = m_next;
+                m_next->prev = m_prev;
                 itr.delete_current();
+                --theSize;
+                return iterator(m_next);
             }
             catch(const char* msg)
             {
                 std::cerr << msg << '\n';
-            }
-            --theSize;
-            return iterator(next);
+            } 
         }
 
     public:
