@@ -9,21 +9,24 @@
 // #include "list/TwoStacks.cpp"
 // #include "list/ThreeStacks.cpp"
 // #include "list/Deque.cpp"
+#include "list/SelfAdjustingVector.cpp"
+#include "list/SelfAdjustingLinkedList.cpp"
 
 using namespace std;
 
 int main() {
 	try
 	{
-		SingleLinkedList<int> s;
-		s.push_front(1);
-		s.push_front(2);
-		s.push_front(3);
-		s.push_front(4);
-		s.push_front(5);
-		s.push_front(6);
-		s.print();
-		s.rprint();
+		SelfAdjustingVector<int> s;
+		s.push(1);
+		s.push(2);
+		s.find(1);
+		cout << s.front() << "\n";
+		SelfAdjustingLinkedList<int> s2;
+		s2.push(444);
+		s2.push(555);
+		s2.find(444);
+		cout << s2.front() << "\n";
 	}
 	catch(const char * msg)
 	{
