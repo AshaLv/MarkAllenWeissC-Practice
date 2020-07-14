@@ -13,12 +13,8 @@ class SingleLinkedList {
 
             Node(const Object & d = Object(), Node * n = NULL) : data(d), next(n) {}
         };
-        
-    protected:
         int theSize;
         Node * head;
-
-    private:
         void init() {
             theSize = 0;
             head = new Node;
@@ -193,6 +189,31 @@ class SingleLinkedList {
         }
         void pop_front() {
             erase(begin());
+        }
+        void reverse() {
+            Node * p1 = NULL;
+            Node * p2 = head->next;
+            Node * p3 = p2->next;
+            while(p2 != NULL) {
+                p2->next = p1;
+                p1 = p2;
+                p2 = p3;
+                if (p3 != NULL) p3 = p3->next;
+            }
+            head->next = p1;
+        }
+        void rprint() {
+            reverse();
+            const_iterator begin_itr = begin();
+            const_iterator end_itr = end();
+            while(begin_itr != end_itr) cout << *(begin_itr++) << " ";
+            cout << "\n";
+        }
+        void print() {
+            const_iterator begin_itr = begin();
+            const_iterator end_itr = end();
+            while(begin_itr != end_itr) cout << *(begin_itr++) << " ";
+            cout << "\n";
         }
 
     public:
