@@ -26,7 +26,8 @@ int main() {
 		s.push_front(2);
 		s.push_front(3);
 		s.push_front(4);
-		s.remove(++(++s.begin()));
+		s.add_before(++s.begin(),222);
+		s.erase(++s.begin());
 		SingleLinkedList<int>::const_iterator begin_itr = s.begin();
 		SingleLinkedList<int>::const_iterator end_itr = s.end();
 		while(begin_itr!=end_itr) cout << *begin_itr++ << "\n";

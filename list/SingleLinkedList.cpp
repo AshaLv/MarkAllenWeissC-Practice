@@ -3,21 +3,24 @@
 #include <iostream>
 using namespace std;
 
-template<typename Object>
+template<typename T>
 class SingleLinkedList {
     private:
         struct Node
         {
-            Object data;
+            T data;
             Node * next;
 
-            Node(const Object & d = Object(), Node * n = NULL) : data(d), next(n) {}
+            Node(const T & d = T(), Node * n = NULL) : data(d), next(n) {}
         };
         int theSize;
         Node * head;
+        Node * tail;
         void init() {
             theSize = 0;
             head = new Node;
+            tail = new Node;
+            head->next = tail;
         }
 
     public:
@@ -26,8 +29,8 @@ class SingleLinkedList {
                 Node * current;
             protected:
                 const_iterator(Node * p) : current(p) {}
-                friend class SingleLinkedList<Object>;
-                Object & retrieve() const {
+                friend class SingleLinkedList<T>;
+                T & retrieve() const {
                     return current->data;
                 }
             public:
@@ -41,7 +44,7 @@ class SingleLinkedList {
                     ++(*this);
                     return old;
                 }
-                const Object & operator*() const {
+                const T & operator*() const {
                     return retrieve();
                 }
                 bool operator==(const const_iterator & rhs) const {
@@ -54,7 +57,7 @@ class SingleLinkedList {
         class iterator : public const_iterator {
             protected:
                 iterator(Node * p) : const_iterator(p) {}
-                friend class SingleLinkedList<Object>;
+                friend class SingleLinkedList<T>;
             public:
                 iterator() {}
                 iterator operator++() {
@@ -66,10 +69,10 @@ class SingleLinkedList {
                     ++(*this);
                     return old;
                 }
-                Object & operator*() {
+                T & operator*() {
                     return iterator::retrieve();
                 }
-                const Object & operator*() const {
+                const T & operator*() const {
                     return iterator::retrieve();
                 }
         };
@@ -122,12 +125,12 @@ class SingleLinkedList {
             return iterator(head->next);
         }
         iterator end() {
-            return iterator(NULL);
+            return iterator(tail);
         }
         const_iterator end() const {
-            return iterator(NULL);
+            return iterator(tail);
         }
-        Pair contain(const Object & x) {
+        Pair contain(const T & x) {
             iterator c = begin();
             iterator end_itr = end();
             while (c != end_itr) {
@@ -140,7 +143,7 @@ class SingleLinkedList {
             } 
             return Pair(false, c);;
         }
-        void remove(const Object & x) {
+        void remove(const T & x) {
             const_iterator c = begin();
             const_iterator end_itr = end();
             while (c != end_itr) {
@@ -154,17 +157,17 @@ class SingleLinkedList {
 
     public:
         //core methods
-        void push_back(const Object & o) {
+        void push_back(const T & o) {
             insert(end(), o);
         }
-        Object & back() {
+        T & back() {
             const_iterator itr = begin();
             for (int i = 0; i < theSize - 1; i++) {
                 ++itr;
             }
             return *(itr);
         }
-        const Object & back() const {
+        const T & back() const {
             const_iterator itr = begin();
             for (int i = 0; i < theSize - 1; i++) {
                 ++itr;
@@ -178,13 +181,13 @@ class SingleLinkedList {
             }
             erase(itr);
         }
-        void push_front(const Object & o) {
+        void push_front(const T & o) {
             insert(begin(), o);
         }
-        Object & front() {
+        T & front() {
             return *(begin());
         }
-        const Object & front() const {
+        const T & front() const {
             return *(begin());
         }
         void pop_front() {
@@ -217,7 +220,7 @@ class SingleLinkedList {
         }
 
     public:
-        iterator insert(iterator itr, const Object & o) {
+        iterator insert(iterator itr, const T & o) {
             Pair m_pair = contain(o);
             if (m_pair.existed) {
                 return itr;
@@ -242,27 +245,34 @@ class SingleLinkedList {
             theSize++;
             return iterator(newNode);
         }
-        iterator erase(const_iterator itr) {
-            const_iterator begin_itr = begin();
-            Node * p = itr.current;
-            Node * next = p->next;
-            if (itr == begin_itr) {
-                head->next = next;
-            } else {
-                for (int i = 0; i < theSize; i++) {
-                    if (begin_itr.current->next == itr.current) {
-                        begin_itr.current->next = next;
-                        break;
-                    }
-                    ++begin_itr;
-                }
-            }
-            delete p;
-            --theSize;
-            return iterator(next);
+        iterator add_before(iterator itr, const T & x) {
+            Node * p1 = itr.current;
+            Node * p2 = p1->next;
+            Node * p = new Node(p1->data, p2);
+            p1->next = p;
+            p1->data = x;
+            return itr;
         }
-        // param:"itr" - cannot point to last element
-        void remove(const_iterator itr) {
+        // iterator erase(const_iterator itr) {
+        //     const_iterator begin_itr = begin();
+        //     Node * p = itr.current;
+        //     Node * next = p->next;
+        //     if (itr == begin_itr) {
+        //         head->next = next;
+        //     } else {
+        //         for (int i = 0; i < theSize; i++) {
+        //             if (begin_itr.current->next == itr.current) {
+        //                 begin_itr.current->next = next;
+        //                 break;
+        //             }
+        //             ++begin_itr;
+        //         }
+        //     }
+        //     delete p;
+        //     --theSize;
+        //     return iterator(next);
+        // }
+        iterator erase(iterator itr) {
             Node * p1 = itr.current;
             Node * p2 = p1->next;
             Node * p3 = p2->next;
@@ -270,6 +280,7 @@ class SingleLinkedList {
             delete p2;
             p1->next = p3;
             --theSize;
+            return itr;
         }
         bool contain_circle() {
             const_iterator begin_speed_1_itr = begin();
