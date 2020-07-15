@@ -13,26 +13,23 @@
 // #include "list/SelfAdjustingLinkedList.cpp"
 // #include "list/Stack2.cpp"
 // #include "list/Queue2.cpp"
-#include "list/CircularQueue.cpp"
-
+// #include "list/CircularQueue.cpp"
 using namespace std;
 
 int main() {
 	try
 	{
-		CircularQueue<int> q;
-		q.enqueue(1);
-		q.enqueue(2);
-		q.enqueue(3);
-		q.enqueue(4);
-		cout << q.dequeue() << "\n";
-		cout << q.dequeue() << "\n";
-		q.enqueue(111);
-		q.enqueue(222);
-		cout << q.dequeue() << "\n";
-		cout << q.dequeue() << "\n";
-		cout << q.dequeue() << "\n";
-		cout << q.dequeue() << "\n";
+		SingleLinkedList<int> s;
+		s.push_front(1);
+		s.push_front(2);
+		s.push_front(3);
+		s.push_front(4);
+		s.push_front(5);
+		s.push_front(6);
+		s.push_front(7);
+		s.push_front(8);
+		s.make_circle();
+		cout << s.contain_circle() << "\n";
 	}	
 	catch(const char * msg)
 	{

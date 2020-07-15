@@ -261,7 +261,29 @@ class SingleLinkedList {
             theSize--;
             return iterator(next);
         }
-
+        bool contain_circle() {
+            const_iterator begin_speed_1_itr = begin();
+            const_iterator begin_speed_2_itr = begin();
+            const_iterator end_itr = end();
+            while (begin_speed_2_itr != end_itr) {
+                ++begin_speed_2_itr;
+                if (begin_speed_2_itr == begin_speed_1_itr) return true;
+                ++begin_speed_2_itr;
+                if (begin_speed_2_itr == begin_speed_1_itr) return true;
+                ++begin_speed_1_itr;
+            }
+            throw "Exception: Circle Here!";
+            return false;
+        }
+        void make_circle() {
+            Node * p = head->next->next;
+            Node * p2 = head;
+            for (int i = 0; i < 4; i++)
+            {
+                p2 = p2->next;
+            }
+            p2->next = p;
+        }
     public:
         void adjacentElementsSwap(const_iterator itr) {
             const_iterator prev = itr;
