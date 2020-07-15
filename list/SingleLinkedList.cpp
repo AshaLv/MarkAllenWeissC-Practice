@@ -258,8 +258,18 @@ class SingleLinkedList {
                 }
             }
             delete p;
-            theSize--;
+            --theSize;
             return iterator(next);
+        }
+        // param:"itr" - cannot point to last element
+        void remove(const_iterator itr) {
+            Node * p1 = itr.current;
+            Node * p2 = p1->next;
+            Node * p3 = p2->next;
+            p1->data = p2->data;
+            delete p2;
+            p1->next = p3;
+            --theSize;
         }
         bool contain_circle() {
             const_iterator begin_speed_1_itr = begin();
@@ -284,6 +294,7 @@ class SingleLinkedList {
             }
             p2->next = p;
         }
+
     public:
         void adjacentElementsSwap(const_iterator itr) {
             const_iterator prev = itr;
