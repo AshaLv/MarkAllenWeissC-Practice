@@ -1,5 +1,5 @@
 #include <iostream>
-#include "list/SingleLinkedList.cpp"
+// #include "list/SingleLinkedList.cpp"
 // #include "list/DoubleLinkedList.cpp"
 // #include "application/LinkedListApplication.cpp"
 // #include "list/Vector.cpp"
@@ -14,22 +14,23 @@
 // #include "list/Stack2.cpp"
 // #include "list/Queue2.cpp"
 // #include "list/CircularQueue.cpp"
+#include "list/CircularQueue2.cpp"
+
 using namespace std;
 
 int main() {
 	try
-	{
-		SingleLinkedList<int> s;
-		s.push_front(1);
-		s.push_front(2);
-		s.push_front(3);
-		s.push_front(4);
-		s.push_front(5);
-		s.push_front(6);
-		s.push_front(7);
-		s.push_front(8);
-		s.make_circle();
-		cout << s.contain_circle() << "\n";
+	{	
+		CircularQueue2<int> q;
+		q.enqueue(1);
+		q.enqueue(2);
+		q.enqueue(3);
+		q.enqueue(4);
+		CircularQueue2<int> q2 = q;
+		q.dequeue();
+		q.dequeue();
+		cout << q.dequeue() << "\n";
+		cout << q2.dequeue() << "\n";
 	}	
 	catch(const char * msg)
 	{
