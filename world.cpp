@@ -12,22 +12,28 @@
 // #include "list/SelfAdjustingVector.cpp"
 // #include "list/SelfAdjustingLinkedList.cpp"
 // #include "list/Stack2.cpp"
-#include "list/Queue2.cpp"
+// #include "list/Queue2.cpp"
+#include "list/CircularQueue.cpp"
 
 using namespace std;
 
 int main() {
 	try
 	{
-		Queue2<int> q;
-		q.push(1);
-		q.push(2);
-		q.push(3);
-		Queue2<int> q2 = q;
-		q2.pop();
-		cout << q.front() << "\n";
-		cout << q2.front() << "\n";
-	}
+		CircularQueue<int> q;
+		q.enqueue(1);
+		q.enqueue(2);
+		q.enqueue(3);
+		q.enqueue(4);
+		cout << q.dequeue() << "\n";
+		cout << q.dequeue() << "\n";
+		q.enqueue(111);
+		q.enqueue(222);
+		cout << q.dequeue() << "\n";
+		cout << q.dequeue() << "\n";
+		cout << q.dequeue() << "\n";
+		cout << q.dequeue() << "\n";
+	}	
 	catch(const char * msg)
 	{
 		cerr << msg << '\n';
