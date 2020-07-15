@@ -11,19 +11,22 @@
 // #include "list/Deque.cpp"
 // #include "list/SelfAdjustingVector.cpp"
 // #include "list/SelfAdjustingLinkedList.cpp"
-#include "list/Stack2.cpp"
+// #include "list/Stack2.cpp"
+#include "list/Queue2.cpp"
 
 using namespace std;
 
 int main() {
 	try
 	{
-		Stack2<int> s;
-		s.push(1);
-		s.push(2);
-		Stack2<int> s2 = s;
-		s2.pop();
-		cout << s2.top() << "\n";
+		Queue2<int> q;
+		q.push(1);
+		q.push(2);
+		q.push(3);
+		Queue2<int> q2 = q;
+		q2.pop();
+		cout << q.front() << "\n";
+		cout << q2.front() << "\n";
 	}
 	catch(const char * msg)
 	{
